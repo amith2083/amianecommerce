@@ -21,7 +21,7 @@ import {
   updateUserShippingAddress,
   deleteUserAddress,
   userprofileOrders,
-} from "../controllers/usersCtrl.js";
+} from "../controllers/UsersCtrl.js";
 import {
   loadCart,
   addToCart,
