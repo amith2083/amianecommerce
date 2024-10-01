@@ -1,0 +1,71 @@
+<%- include('../layout/adminHeader.ejs') %>
+<section class="content-main">
+    <div class="row">
+        <div class="col-9">
+            <div class="content-header">
+                <h2 class="content-title">Add New Coupon</h2>
+                <!-- <div>
+                    <button class="btn btn-md rounded font-sm hover-up">Publish</button>
+                </div> -->
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Coupon Details</h4>
+                </div>
+                <div class="card-body">
+                    <form id="coupon-form" action="/admin/coupon" method="post">
+                        <!-- Coupon Code -->
+                        <div class="mb-4">
+                            <label for="coupon_code" class="form-label">Coupon Code</label>
+                            <input type="text" name="code" placeholder="Enter coupon code" class="form-control" id="coupon_code" required>
+                        </div>
+
+                        <!-- Start Date -->
+                        <div class="mb-4">
+                            <label for="start_date" class="form-label">Start Date</label>
+                            <input type="date" name="startDate" class="form-control" id="start_date" required>
+                        </div>
+
+                        <!-- End Date -->
+                        <div class="mb-4">
+                            <label for="end_date" class="form-label">End Date</label>
+                            <input type="date" name="endDate" class="form-control" id="end_date" required>
+                        </div>
+
+                        <!-- Discount -->
+                        <div class="mb-4">
+                            <label for="discount" class="form-label">Discount (%)</label>
+                            <input type="number" name="discount" placeholder="Enter discount percentage" class="form-control" id="discount" min="1" max="100" required>
+                        </div>
+
+                        <!-- Maximum Purchase Amount -->
+                        <div class="mb-4">
+                            <label for="maximum_purchase_amount" class="form-label">Maximum Purchase Amount</label>
+                            <input type="number" name="maximumPurchaseAmount" placeholder="Enter maximum purchase amount" class="form-control" id="maximum_purchase_amount" required>
+                        </div>
+
+                        <!-- Usage Limit -->
+                        <div class="mb-4">
+                            <label for="usage_limit" class="form-label">Usage Limit</label>
+                            <input type="number" name="usageLimit" placeholder="Enter usage limit" class="form-control" id="usage_limit">
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-4">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea name="description" placeholder="Enter coupon description" class="form-control" id="description"></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div>
+                            <button type="submit" class="btn btn-md rounded font-sm hover-up">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div> <!-- card end// -->
+        </div>
+    </div>
+</section> <!-- content-main end// -->
+<%- include('../layout/adminFooter.ejs') %>

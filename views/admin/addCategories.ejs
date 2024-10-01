@@ -1,0 +1,151 @@
+<%- include('../layout/adminHeader.ejs') %>
+<section class="content-main">
+  <div class="content-header">
+    <div>
+      <h2 class="content-title card-title">Categories</h2>
+      <p>Add, edit or delete a category</p>
+    </div>
+    <div>
+      <input type="text" placeholder="Search Categories" class="form-control bg-white">
+    </div>
+  </div>
+  <!-- <%# if (locals.error) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="max-width: 500px";>
+      <%# error %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <%# } %>
+
+  <%# if (locals.success) { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <%# success %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <%# } %> -->
+  
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-3">
+          
+          <form id="category-form" action="/admin/addcategory" method="POST" enctype="multipart/form-data">
+            <div class="mb-4">
+              <label for="product_name" class="form-label">Name</label>
+              <input type="text" name="name" placeholder="Type here" class="form-control" id="product_name"  required/>
+            </div>
+            <!-- <div class="mb-4">
+              <label class="form-label">Description</label>
+              <textarea name="description" placeholder="Type here" class="form-control"></textarea>
+            </div> -->
+            <div class="mb-4">
+                <label class="form-label">Upload Image</label>
+                <input type="file" name="file" class="form-control" required/>
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">Create category</button>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-9">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <!-- <thead>
+                <tr>
+                  <th class="text-center">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" />
+                    </div>
+                  </th>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Slug</th>
+                  <th>Order</th>
+                  <th class="text-end">Action</th>
+                </tr>
+              </thead> -->
+              <thead>
+                <tr>
+                    <th class="text-center">
+                        <div class="form-check">
+                            <!-- <input class="form-check-input" type="checkbox" value="" /> -->
+                        </div>
+                    </th>
+                    <th>No</th>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <!-- <th>Status</th> -->
+                    <!-- <th>Slug</th>
+                    <th>Order</th> -->
+                    <th class="text-end">Action</th>
+                </tr>
+            </thead>
+              <tbody>
+                <% categories.forEach(function(category,index) { %>
+                <tr>
+                  <td class="text-center">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" />
+                    </div>
+                  </td>
+                  <td><%= index + 1 %></td>
+                  <td><b><%= category.name %></b></td>
+                  <td><img src="<%= category.image %>" alt="category image" style="max-width: 50px; max-height: 50px;"></td>
+                  <!-- <td>
+                    <%# if (category.status === false) { %>
+                      <span class="text-success">Active</span>
+                    <%# } else { %>
+                      <span class="text-danger">Inactive</span>
+                    <#% } %>
+                  </td> -->
+                 
+                  
+                  <td class="text-end">
+                    <div class="dropdown">
+                      <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm">
+                        <i class="material-icons md-more_horiz"></i></a>
+                      <div class="dropdown-menu">
+                        <!-- <a class="dropdown-item" href="#">View detail</a> -->
+                        <a class="dropdown-item" href="/admin/editcategory/<%= category._id %>">Edit </a>
+                        <!-- <a class="dropdown-item text-danger" href="/admin/deletecategory/<#= category._id %>">Delete</a>  -->
+
+                        <a class="dropdown-item text-danger" href="#" onclick="event.preventDefault(); if(confirm('Are you sure?')) { document.getElementById('delete-form-<%= category._id %>').submit(); }">Delete</a>
+                        <form id="delete-form-<%= category._id %>" action="/admin/deletecategory/<%= category._id %>?_method=DELETE" method="POST" style="display: none;">
+                         <input type="hidden" name="_method" value="DELETE">
+       
+                       </form>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pagination-area mt-30 mb-50">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-start">
+        <% if (currentPage > 1) { %>
+          <li class="page-item">
+            <a class="page-link" href="?page=<%= currentPage - 1 %>&limit=<%= limit %>">&laquo;</a>
+          </li>
+        <% } %>
+        <% for (let i = 1; i <= totalPages; i++) { %>
+          <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+            <a class="page-link" href="?page=<%= i %>&limit=<%= limit %>"><%= i %></a>
+          </li>
+        <% } %>
+        <% if (currentPage < totalPages) { %>
+          <li class="page-item">
+            <a class="page-link" href="?page=<%= currentPage + 1 %>&limit=<%= limit %>">&raquo;</a>
+          </li>
+        <% } %>
+      </ul>
+    </nav>
+  </div>
+</section>
+<%- include('../layout/adminFooter.ejs') %>

@@ -1,0 +1,175 @@
+<%- include('../layout/adminHeader.ejs') %>
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Order detail</h2>
+            <p>Details for Order ID: <%= order.orderNumber %></p>
+        </div>
+    </div>
+    <div class="card">
+        <header class="card-header">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+                    <span>
+                        <i class="material-icons md-calendar_today"></i> <b><%= new Date(order.createdAt).toLocaleString() %></b>
+                    </span> <br>
+                    <small class="text-muted">Order ID: <%= order.orderNumber %></small>
+                </div>
+                <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+                    <!-- <select id="orderStatus" class="form-select d-inline-block mb-lg-0 mb-15 mw-200"> -->
+                        <form id="orderStatusForm" action="/admin/orderstatus/<%= order._id %>"  data-id="<%= order._id %>" method="POST">
+                            
+                            <select name="status" id="status" class="form-select d-inline-block mb-lg-0 mb-15 mw-200">
+                                <option>Change status</option>
+                                <option value="Cancelled" <%= order.status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+                                <option value="Shipped" <%= order.status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+                                <option value="Delivered" <%= order.status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+                                <option value="Processing" <%= order.status === 'Processing' ? 'selected' : '' %>>Processing</option>
+                                <option value="Pending" <%= order.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </form>
+                    <!-- </select>
+                    <a class="btn btn-primary" href="#">Save</a>
+                    <a id="saveOrderStatus" class="btn btn-secondary print ms-2" href="javascript:void(0);"><i class="icon material-icons md-print"></i></a> -->
+                </div>
+            </div>
+        </header> <!-- card-header end// -->
+        <div class="card-body">
+            <div class="row mb-50 mt-20 order-info-wrap">
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class="text-primary material-icons md-person"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Customer</h6>
+                            <p class="mb-1">
+                                <%= order.user.name %> <br> 
+                                <%= order.user.email %> <br> 
+                                +<%= order.user.mobno %>
+                            </p>
+                            <!-- <a href="#">View profile</a> -->
+                        </div>
+                    </article>
+                </div> <!-- col// -->
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class="text-primary material-icons md-local_shipping"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Order info</h6>
+                            <p class="mb-1">
+                                Shipping: <%= order.shippingMethod || 'Not specified' %> <br>
+                                Payment method: <%= order.paymentMethod || 'Not specified' %> <br>
+                                Status: <%= order.status %>
+                            </p>
+                            <!-- <a href="#">Download info</a> -->
+                        </div>
+                    </article>
+                </div> <!-- col// -->
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class="text-primary material-icons md-place"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Deliver to</h6>
+                            <p class="mb-1">
+                                <%= order.shippingAddress.firstName %> <%= order.shippingAddress.lastName %> <br>
+                                <%= order.shippingAddress.address %> <br>
+                                <%= order.shippingAddress.city %>, <%= order.shippingAddress.country %> <br>
+                                Postcode: <%= order.shippingAddress.postalCode %> <br>
+                                Phone: +<%= order.shippingAddress.phone %> <br>
+                                Email: <%= order.shippingAddress.email %>
+                            </p>
+                            <!-- <a href="#">View profile</a> -->
+                        </div>
+                    </article>
+                </div> <!-- col// -->
+            </div> <!-- row // -->
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th width="40%">Product</th>
+                                    <th width="20%">Unit Price</th>
+                                    <th width="20%">Quantity</th>
+                                    <th width="20%" class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                               
+                                <% order.orderItems.forEach(item => { %>
+                                    <tr>
+                                        <td>
+                                            <a class="itemside" href="#">
+                                                <div class="left">
+                                                    <img src="<%= item.productId.images[0] %>" width="40" height="40" class="img-xs" alt="Item">
+                                                </div>
+                                                <div class="info"> 
+                                                    <%= item.productId.name %>, <%= item.size %> size 
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td> Rs <%= item.productId.salesPrice %> </td>
+                                        <td> <%= item.quantity %> </td>
+                                        <td class="text-end"> Rs <%= item.quantity * item.productId.salesPrice %> </td>
+                                    </tr>
+                                    <% }) %>
+                                    
+                                <tr>
+                                    <td colspan="4">
+                                        <article class="float-end">
+                                            <dl class="dlist">
+                                                <dt>Subtotal:</dt>
+                                                <dd>Rs <%= order.totalPrice %></dd>
+                                            </dl>
+                                            <dl class="dlist">
+                                                <dt>Shipping cost:</dt>
+                                                <dd>Rs 0.00</dd>
+                                            </dl>
+                                            <dl class="dlist">
+                                                <dt>Grand total:</dt>
+                                                <dd> <b class="h5">Rs <%= order.totalPrice %></b> </dd>
+                                            </dl>
+                                            <dl class="dlist">
+                                                <dt class="text-muted">Status:</dt>
+                                                <dd>
+                                                    <span class="badge rounded-pill alert-success text-success"><%= order.status %></span>
+                                                </dd>
+                                            </dl>
+                                        </article>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> <!-- table-responsive// -->
+                    <a class="btn btn-primary" href="page-orders-tracking.html">View Order Tracking</a>
+                </div> <!-- col// -->
+                <div class="col-lg-1"></div>
+                <div class="col-lg-4">
+                    <div class="box shadow-sm bg-light">
+                        <h6 class="mb-15">Payment info</h6>
+                        <p>
+                            <img src="assets/imgs/card-brands/2.png" class="border" height="20"> Master Card **** **** 4768 <br>
+                            Business name: Grand Market LLC <br>
+                            Phone: +1 (800) 555-154-52
+                        </p>
+                    </div>
+                    <!-- <div class="h-25 pt-4">
+                        <div class="mb-3">
+                            <label>Notes</label>
+                            <textarea class="form-control" name="notes" id="notes" placeholder="Type some note"></textarea>
+                        </div>
+                        <button class="btn btn-primary">Save note</button>
+                    </div> -->
+                </div> <!-- col// -->
+            </div>
+        </div> <!-- card-body end// -->
+    </div> <!-- card end// -->
+</section> <!-- content-main end// -->
+<%- include('../layout/adminFooter.ejs') %>

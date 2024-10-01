@@ -1,0 +1,16 @@
+<%- include('../layout/userHeader.ejs') %>
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Order Confirmation</h2>
+            <p>Your order has been placed successfully!</p>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-body">
+            <p>Thank you for your purchase. Your order ID is <strong><%= orderNumber %></strong>.</p>
+            <a href="/products" class="btn btn-primary">Continue Shopping</a>
+        </div>
+    </div>
+</section> <!-- content-main end// -->
+<%- include('../layout/userFooter.ejs') %>

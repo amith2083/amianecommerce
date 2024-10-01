@@ -1,0 +1,297 @@
+﻿<%- include('../layout/userHeader.ejs') %>
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="/home" rel="nofollow">Home</a>
+                    <!-- <span></span> Pages -->
+                    <span></span> My profile
+                </div>
+            </div>
+        </div>
+        <section class="pt-150 pb-150">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 m-auto">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="dashboard-menu" >
+                                    <ul class="nav flex-column" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="true"><i class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="orders-tab"  href="/profile/orders" role="tab" aria-controls="orders" aria-selected="false"><i class="fi-rs-shopping-bag mr-10"></i>Orders</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="track-orders-tab" data-bs-toggle="tab" href="#track-orders" role="tab" aria-controls="track-orders" aria-selected="false"><i class="fi-rs-shopping-cart-check mr-10"></i>Track Your Order</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="address-tab" data-bs-toggle="tab" href="#address" role="tab" aria-controls="address" aria-selected="true"><i class="fi-rs-marker mr-10"></i>My Address</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="wallet-tab" data-bs-toggle="tab" href="#wallet" role="tab" aria-controls="wallet" aria-selected="false">
+                                                <i class="fas fa-wallet mr-10"></i>Wallet
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="account-detail-tab" data-bs-toggle="tab" href="#account-detail" role="tab" aria-controls="account-detail" aria-selected="false"><i class="fi-rs-user mr-10"></i>Account details</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="/logout"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="tab-content dashboard-content">
+                                    <div class="tab-pane fade active show" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">Hello <%= user.name %>! </h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <p>From your account dashboard. you can easily check &amp; view your <a href="#">recent orders</a>, manage your <a href="#">shipping and billing addresses</a> and <a href="#">edit your password and account details.</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="tab-pane fade " id="track-orders" role="tabpanel" aria-labelledby="track-orders-tab">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">Orders tracking</h5>
+                                            </div>
+                                            <div class="card-body contact-from-area">
+                                                <p>To track your order please enter your OrderID in the box below and press "Track" button. This was given to you on your receipt and in the confirmation email you should have received.</p>
+                                                <div class="row">
+                                                    <div class="col-lg-8">
+                                                        <form class="contact-form-style mt-30 mb-50" action="#" method="post">
+                                                            <div class="input-style mb-20">
+                                                                <label>Order ID</label>
+                                                                <input name="order-id" placeholder="Found in your order confirmation email" type="text" class="square">
+                                                            </div>
+                                                            <div class="input-style mb-20">
+                                                                <label>Billing email</label>
+                                                                <input name="billing-email" placeholder="Email you used during checkout" type="email" class="square">
+                                                            </div>
+                                                            <button class="submit submit-auto-width" type="submit">Track</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
+                                        <div class="row">
+                                            <% if (user.shippingAddress && user.shippingAddress.length > 0) { %>
+                                                <% user.shippingAddress.forEach(function(address, index) { %>
+                                                  <div class="address-item col-lg-6">
+                                                    <div class="card mb-3 mb-lg-0">
+                                                      <div class="card-header">
+                                                        <h5 class="mb-0">Shipping Address <%= index + 1 %></h5>
+                                                      </div>
+                                                      <div class="card-body">
+                                                        <address>
+                                                          <%= address.firstName %> <%= address.lastName %><br>
+                                                          <%= address.address %><br>
+                                                          <%= address.city %>, <%= address.country %> <%= address.postalCode %><br>
+                                                          Phone: <%= address.phone %><br>
+                                                          Email: <%= address.email %>
+                                                        </address>
+                                                        <button type="button" class="btn-small" data-bs-toggle="modal" data-bs-target="#editAddressModal<%= index %>">Edit Address</button>
+
+                                                        <form action="/profile/delete-address/<%= index %>?_method=DELETE" method="POST" style="display: inline-block; margin-left: 10px;" class="delete-address-form">
+                                                            <!-- <input type="hidden" name="index" value=DELETE> -->
+                                                            <input type="hidden" name="_method" value="DELETE">
+                                                            <!-- <input type="hidden" name="index" value="<%# index %>"> -->
+                                                            <button type="submit" class="btn btn-sm btn-danger" data-index="<%= index %>">Delete</button>
+                                                        </form>
+                                                        
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                   <!-- Edit Address Modal -->
+      <div class="modal fade" id="editAddressModal<%= index %>" tabindex="-1" aria-labelledby="editAddressModalLabel<%= index %>" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editAddressModalLabel<%= index %>">Edit Shipping Address <%= index + 1 %></h5>
+              
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/profile/update-address" method="post">
+                <input type="hidden" name="index" value="<%= index %>">
+              <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+                <div class="mb-3">
+                  <label for="firstName<%= index %>" class="form-label">First Name</label>
+                  <input type="text" class="form-control" id="firstName<%= index %>" name="firstName" value="<%= address.firstName %>">
+                </div>
+                <div class="mb-3">
+                  <label for="lastName<%= index %>" class="form-label">Last Name</label>
+                  <input type="text" class="form-control" id="lastName<%= index %>" name="lastName" value="<%= address.lastName %>">
+                </div>
+                <div class="mb-3">
+                  <label for="address<%= index %>" class="form-label">Address</label>
+                  <input type="text" class="form-control" id="address<%= index %>" name="address" value="<%= address.address %>">
+                </div>
+                <div class="mb-3">
+                  <label for="city<%= index %>" class="form-label">City</label>
+                  <input type="text" class="form-control" id="city<%= index %>" name="city" value="<%= address.city %>">
+                </div>
+                <div class="mb-3">
+                  <label for="country<%= index %>" class="form-label">Country</label>
+                  <input type="text" class="form-control" id="country<%= index %>" name="country" value="<%= address.country %>">
+                </div>
+                <div class="mb-3">
+                  <label for="postalCode<%= index %>" class="form-label">Postal Code</label>
+                  <input type="text" class="form-control" id="postalCode<%= index %>" name="postalCode" value="<%= address.postalCode %>">
+                </div>
+                <div class="mb-3">
+                  <label for="phone<%= index %>" class="form-label">Phone</label>
+                  <input type="text" class="form-control" id="phone<%= index %>" name="phone" value="<%= address.phone %>">
+                </div>
+                <div class="mb-3">
+                  <label for="email<%= index %>" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="email<%= index %>" name="email" value="<%= address.email %>">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- End of Edit Address Modal -->
+    <% }) %>
+  <% } else { %>
+    <p>No shipping addresses available</p>
+  <% } %>
+</div>
+                                        </div>
+                                    </div>
+                                     <!-- Wallet Tab -->
+                                     <div class="tab-pane fade" id="wallet" role="tabpanel" aria-labelledby="wallet-tab">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">Wallet Balance</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <!-- Wallet Balance -->
+                                                <% if (wallet) { %>
+                                                    <div class="wallet-balance mt-4">
+                                                        <h4>Your Current Balance: Rs <%= wallet.amount %></h4>
+                                                    </div>
+                                                <% } else { %>
+                                                    <p class="mt-4">No wallet found for this user.</p>
+                                                <% } %>
+                                    
+                                                <!-- Form for adding funds -->
+                                                <form id="addFundsForm" action="/profile/add-funds" method="POST">
+                                                    <div class="input-group mt-3">
+                                                        <input type="number" class="form-control" name="amount" placeholder="Add Funds" required>
+                                                        <button class="btn btn-primary" type="submit">Add Funds</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    
+                                        <!-- Transaction History -->
+                                        <div class="card mt-4">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">Transaction History</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <% if (wallet && wallet.walletHistory && wallet.walletHistory.length > 0) { %>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Date</th>
+                                                                    <th>Description</th>
+                                                                    <th>Amount</th>
+                                                                    <th>Type</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <% wallet.walletHistory.forEach(function(transaction) { %>
+                                                                    <tr>
+                                                                        <td><%= new Date(transaction.createdAt).toDateString() %></td>
+                                                                        <td><%= transaction.description %></td>
+                                                                        <td>Rs <%= transaction.amount %></td>
+                                                                        <td><%= transaction.transactionType %></td>
+                                                                    </tr>
+                                                                <% }); %>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                <% } else { %>
+                                                    <p>No transactions yet.</p>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                
+                                
+
+                                    <div class="tab-pane " id="account-detail" role="tabpanel" aria-labelledby="account-detail-tab">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5>Account Details</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <!-- <p>Already have an account? <a href="page-login-register.html">Log in instead!</a></p> -->
+                                                <form method="post" name="enq">
+                                                    <div class="row">
+                                                        <div class="form-group col-md-6">
+                                                            <label> Name <span class="required">*</span></label>
+                                                            <input required="" class="form-control square" name="name" type="text" value="<%= user.name %>">
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Referral Code</label>
+                                                            <input class="form-control square" name="referralCode" type="text" value="<%= user.referralCode || 'No referral code' %>" disabled>
+                                                        </div>
+                                                        
+                                                        <div class="form-group col-md-12">
+                                                            <label>Mobile Number <span class="required">*</span></label>
+                                                            <input required="" class="form-control square" name="mobno" type="tel" value="<%= user.mobno%>">
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Email Address <span class="required">*</span></label>
+                                                            <input required="" class="form-control square" name="email" type="email" value="<%= user.email %>">
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Current Password <span class="required">*</span></label>
+                                                            <input required="" class="form-control square" name="password" type="password">
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>New Password <span class="required">*</span></label>
+                                                            <input required="" class="form-control square" name="npassword" type="password">
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Confirm Password <span class="required">*</span></label>
+                                                            <input required="" class="form-control square" name="cpassword" type="password">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <button type="submit" class="btn btn-fill-out submit" name="submit" value="Submit">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                       <!-- Edit Address Modal -->
+                                
+                                <!-- End of Edit Address Modal -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <%- include('../layout/userFooter.ejs') %>

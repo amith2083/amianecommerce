@@ -1,0 +1,455 @@
+﻿<%- include('../layout/userHeader.ejs') %>
+
+<main class="main">
+    <section class="home-slider position-relative mb-30">
+        <div class="container">
+            <div class="home-slide-cover bg-grey-10 mt-30" style="background-color:white;">
+                <div class="hero-slider-1 style-4 dot-style-1 dot-style-1-position-1">
+                    <div class="single-hero-slider single-animation-wrap">
+                        <div class="container">
+                            <div class="row align-items-center slider-animated-1">
+                                <div class="col-lg-5 col-md-6">
+                                    <div class="hero-slider-content-2">
+                                        <h4 class="animated">Trade-In Offer</h4>
+                                        <h3 class="animated fw-900">Supper Value Deals</h3>
+                                        <h2 class="animated fw-900 text-brand">On All Products</h2>
+                                        <p class="animated">Save more with coupons & up to 70% off</p>
+                                        <a class="animated btn btn-brush btn-brush-3" href="/products" tabindex="0"> Shop Now </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7 col-md-6">
+                                    <div class="single-slider-img single-slider-img-1">
+                                        <img class="animated" src="/assets/imgs/slider/slider 1.jpg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="single-hero-slider single-animation-wrap">
+                        <div class="container">
+                            <div class="row align-items-center slider-animated-1">
+                                <div class="col-lg-5 col-md-6">
+                                    <div class="hero-slider-content-2">
+                                        <h4 class="animated">Hot promotions</h4>
+                                        <h3 class="animated fw-900">Fashion Trending</h3>
+                                        <h2 class="animated fw-900 text-brand">Great Collection</h2>
+                                        <p class="animated">Save more with coupons & up to 20% off</p>
+                                        <a class="animated btn btn-brush btn-brush-1" href="/products" tabindex="0"> Get It Now </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7 col-md-6">
+                                    <div class="single-slider-img single-slider-img-1">
+                                        <img class="animated" src="/assets/imgs/slider/slider 2.png" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slider-arrow hero-slider-1-arrow"></div>
+            </div>
+        </div>
+    </section>
+    <section class="banners mb-20">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="banner-img wow fadeIn animated">
+                        <img src="assets/imgs/banner/banner-1.png" alt="">
+                        <div class="banner-text">
+                            <span>Smart Offer</span>
+                            <h4>Save 20% on <br>Woman Bag</h4>
+                            <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="banner-img wow fadeIn animated">
+                        <img src="assets/imgs/banner/banner-2.png" alt="">
+                        <div class="banner-text">
+                            <span>Sale off</span>
+                            <h4>Great Summer <br>Collection</h4>
+                            <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-md-none d-lg-flex">
+                    <div class="banner-img wow fadeIn animated  mb-sm-0">
+                        <img src="assets/imgs/banner/banner-3.png" alt="">
+                        <div class="banner-text">
+                            <span>New Arrivals</span>
+                            <h4>Shop Today’s <br>Deals & Offers</h4>
+                            <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="product-tabs pt-25 pb-20 wow fadeIn animated">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="widget-category mb-30">
+                        <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
+                        <ul class="categories">
+                            <% categories.forEach(category => { %>
+                            <li><a href="shop-grid-right.html"><%= category.name %></a></li>
+                            <% }) %>
+                            <!-- <li><a href="shop-grid-right.html">formal shirt</a></li> -->
+                            
+                        </ul>
+                    </div>
+                    <div class="widget-category mb-30">
+                        <h5 class="section-title style-1 mb-30 wow fadeIn animated">Sort by</h5>
+                        <ul class="categories">
+                            <li><a href="shop-grid-right.html">Popularity</a></li>
+                            <li><a href="shop-grid-right.html">Average rating</a></li>
+                            <li><a href="shop-grid-right.html">Price: Low to High</a></li>
+                            <li><a href="shop-grid-right.html">Price: High to Low</a></li>
+                        </ul>
+                    </div>
+                    <div class="widget-category mb-30">
+                        <h5 class="section-title style-1 mb-30 wow fadeIn animated">Price Range</h5>
+                        <ul class="categories">
+                            <li><a href="shop-grid-right.html">Rs0-Rs200</a></li>
+                            <li><a href="shop-grid-right.html">Rs200-Rs400</a></li>
+                            <li><a href="shop-grid-right.html">Rs400-Rs600</a></li>
+                            <li><a href="shop-grid-right.html">Rs600-Rs800</a></li>
+                            <li><a href="shop-grid-right.html">800Rs+</a></li>
+                        </ul>
+                    </div>
+                    <div class="banner-img wow fadeIn mb-45mb-lg-0 animated d-lg-block d-none">
+                        <img src="assets/imgs/banner/banner-11.jpg" alt="">
+                        <div class="banner-text">
+                            <span>Mens Zone</span>
+                            <h4>Save 17% on <br>Office Dress</h4>
+                            <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="tab-header">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="nav-tab-one" data-bs-toggle="tab" data-bs-target="#tab-one" type="button" role="tab" aria-controls="tab-one" aria-selected="true">Featured</button>
+                            </li>
+                            <!-- <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="nav-tab-two" data-bs-toggle="tab" data-bs-target="#tab-two" type="button" role="tab" aria-controls="tab-two" aria-selected="false">Popular</button>
+                            </li> -->
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="nav-tab-three" data-bs-toggle="tab" data-bs-target="#tab-three" type="button" role="tab" aria-controls="tab-three" aria-selected="false">New added</button>
+                            </li>
+                        </ul>
+                        <a href="/products" class="view-more d-none d-md-flex">View More<i class="fi-rs-angle-double-small-right"></i></a>
+                    </div>
+                    <!--End nav-tabs-->
+       <!-- Featured Products (tab-one) -->
+       <div class="tab-content">
+<div class="tab-pane fade show active" id="tab-one" role="tabpanel" aria-labelledby="tab-one">
+    <div class="row product-grid-4">
+        <% featuredProducts.forEach(product => { %>
+        <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+            <div class="product-cart-wrap mb-30">
+                <div class="product-img-action-wrap">
+                    <div class="product-img product-img-zoom">
+                        <a href="/product/<%= product._id %>">
+                            <img class="default-img" src="<%= product.images[0] %>" alt="<%= product.name %>">
+                        </a>
+                    </div>
+                    <div class="product-action-1">
+                        <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                        <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                    </div>
+                    <div class="product-badges product-badges-position product-badges-mrg">
+                        <span class="hot">Hot</span>
+                    </div>
+                </div>
+                <div class="product-content-wrap">
+                    <div class="product-category">
+                        <a href="/category/<%= product.category %>"><%= product.brand %></a>
+                    </div>
+                    <h2><a href="/product/<%= product._id %>"><%= product.name %></a></h2>
+                    <div class="product-price">
+                        <% if (product.salesPrice && product.salesPrice < product.normalPrice) { %>
+                            <span class="sales-price">₹<%= product.salesPrice %></span>
+                      <span class="old-price"><del>₹<%= product.normalPrice %></del></span> 
+                     <% } else { %>
+               <span class="normal-price">₹<%= product.normalPrice %></span>
+                               <% } %>
+                    </div>
+                    <div class="product-action-1 show">
+                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% }); %>
+    </div>
+</div>
+
+<!-- New Added Products (tab-three) -->
+<div class="tab-pane fade" id="tab-three" role="tabpanel" aria-labelledby="tab-three">
+    <div class="row product-grid-4">
+        <% newProducts.forEach(product => { %>
+        <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+            <div class="product-cart-wrap mb-30">
+                <div class="product-img-action-wrap">
+                    <div class="product-img product-img-zoom">
+                        <a href="/product/<%= product._id %>">
+                            <img class="default-img" src="<%= product.images[0] %>" alt="<%= product.name %>">
+                        </a>
+                    </div>
+                    <div class="product-action-1">
+                        <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                        <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                    </div>
+                    <div class="product-badges product-badges-position product-badges-mrg">
+                        <span class="new">New</span>
+                    </div>
+                </div>
+                <div class="product-content-wrap">
+                    <div class="product-category">
+                        <a href="/category/<%= product.category %>"><%= product.brand %></a>
+                    </div>
+                    <h2><a href="/product/<%= product._id %>"><%= product.name %></a></h2>
+                    <div class="product-price">
+                        <% if (product.salesPrice && product.salesPrice < product.normalPrice) { %>
+                            <span class="sales-price">₹<%= product.salesPrice %></span>
+                      <span class="old-price"><del>₹<%= product.normalPrice %></del></span> 
+                     <% } else { %>
+               <span class="normal-price">₹<%= product.normalPrice %></span>
+                               <% } %>
+                    </div>
+                    <div class="product-action-1 show">
+                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% }); %>
+    </div>
+</div>
+       </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="popular-categories section-padding mt-15">
+        <div class="container wow fadeIn animated">
+            <h3 class="section-title mb-20"><span>Popular</span> Categories</h3>
+            <div class="carausel-6-columns-cover position-relative">
+                <div class="slider-arrow slider-arrow-2 carausel-6-columns-arrow" id="carausel-6-columns-arrows"></div>
+                <div class="carausel-6-columns" id="carausel-6-columns">
+                    <% locals.categories.forEach(category => { %>
+                    <div class="card-1">
+                        <figure class=" img-hover-scale overflow-hidden">
+                            <a href="shop-grid-right.html"><img src="<%= category.image %>" alt="<%= category.name %>"></a>
+                        </figure>
+                        <h5><a href="shop-grid-right.html"><%= category.name %></a></h5>
+                    </div>
+                    <% }) %>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="deals section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 deal-co">
+                    <div class="deal wow fadeIn animated mb-md-4 mb-sm-4 mb-lg-0" style="background-image: url('assets/imgs/banner/menu-banner-7.jpg');">
+                        <div class="deal-top">
+                            <h2 class="text-brand">Deal of the Day.</h2>
+                            <h5>Limited quantities.</h5>
+                        </div>
+                        <div class="deal-content">
+                            <h6 class="product-title"><a href="shop-product-right.html">Summer Collection New Morden Design</a></h6>
+                            <div class="product-price"><span class="new-price">$139.00</span><span class="old-price">$160.99</span></div>
+                        </div>
+                        <div class="deal-bottom">
+                            <p>Hurry Up! Offer End In:</p>
+                            <div class="deals-countdown" data-countdown="2025/03/25 00:00:00"></div>
+                            <a href="shop-grid-right.html" class="btn hover-up">Shop Now <i class="fi-rs-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 deal-co">
+                    <div class="deal wow fadeIn animated" style="background-image: url('assets/imgs/banner/menu-banner-8.jpg');">
+                        <div class="deal-top">
+                            <h2 class="text-success">Men Clothing</h2>
+                            <h5>Shirt & Bag</h5>
+                        </div>
+                        <div class="deal-content">
+                            <h6 class="product-title"><a href="shop-product-right.html">Try something new on vacation</a></h6>
+                            <div class="product-price"><span class="new-price">$178.00</span><span class="old-price">$256.99</span></div>
+                        </div>
+                        <div class="deal-bottom">
+                            <p>Hurry Up! Offer End In:</p>
+                            <div class="deals-countdown" data-countdown="2026/03/25 00:00:00"></div>
+                            <a href="shop-grid-right.html" class="btn hover-up">Shop Now <i class="fi-rs-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="pt-25 pb-15">
+        <div class="container wow fadeIn animated">
+            <h3 class="section-title mb-20"><span>New</span> Arrivals</h3>
+            <div class="carausel-6-columns-cover position-relative">
+                <div class="slider-arrow slider-arrow-2 carausel-6-columns-arrow" id="carausel-6-columns-2-arrows"></div>
+                <div class="carausel-6-columns carausel-arrow-center" id="carausel-6-columns-2">
+                    <% newProducts.forEach(product => { %>
+                    <div class="product-cart-wrap small hover-up">
+                        <div class="product-img-action-wrap">
+                            <div class="product-img product-img-zoom">
+                                <a href="/product/<%= product._id %>">
+                                    <img class="default-img" src="<%= product.images[0] %>" alt="<%= product.name %>">
+                                    <img class="hover-img" src="<%= product.images[0] %>" alt="<%= product.name %>">
+                                </a>
+                            </div>
+                            <div class="product-action-1">
+                                <a aria-label="Quick view" class="action-btn small hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                    <i class="fi-rs-eye"></i>
+                                </a>
+                                <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="/wishlist" tabindex="0">
+                                    <i class="fi-rs-heart"></i>
+                                </a>
+                                <a aria-label="Compare" class="action-btn small hover-up" href="/compare" tabindex="0">
+                                    <i class="fi-rs-shuffle"></i>
+                                </a>
+                            </div>
+                            <div class="product-badges product-badges-position product-badges-mrg">
+                                <% if(product.isHot) { %>
+                                    <span class="hot">Hot</span>
+                                <% } else if(product.isNew) { %>
+                                    <span class="new">New</span>
+                                <% } else if(product.isSale) { %>
+                                    <span class="sale">Sale</span>
+                                <% } %>
+                            </div>
+                        </div>
+                        <div class="product-content-wrap">
+                            <h2><a href="/product/<%= product._id %>"><%= product.name %></a></h2>
+                            <div class="rating-result" title="90%">
+                                <span>
+                                </span>
+                            </div>
+                            <div class="product-price">
+                                <% if (product.salesPrice && product.salesPrice < product.normalPrice) { %>
+                                    <span class="sales-price">₹<%= product.salesPrice %></span>
+                              <span class="old-price"><del>₹<%= product.normalPrice %></del></span> 
+                             <% } else { %>
+                       <span class="normal-price">₹<%= product.normalPrice %></span>
+                                       <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section-padding">
+        <div class="container pb-20">
+            <h3 class="section-title mb-20 wow fadeIn animated"><span>Featured</span> Brands</h3>
+            <div class="carausel-6-columns-cover position-relative wow fadeIn animated">
+                <div class="slider-arrow slider-arrow-2 carausel-6-columns-arrow" id="carausel-6-columns-3-arrows"></div>
+                <div class="carausel-6-columns text-center" id="carausel-6-columns-3">
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="/assets/imgs/banner/brand-1.png" alt="">
+                    </div>
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="/assets/imgs/banner/brand-2.png" alt="">
+                    </div>
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="/assets/imgs/banner/brand-3.png" alt="">
+                    </div>
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="/assets/imgs/banner/brand-4.png" alt="">
+                    </div>
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="/assets/imgs/banner/brand-5.png" alt="">
+                    </div>
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="/assets/imgs/banner/brand-6.png" alt="">
+                    </div>
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="/assets/imgs/banner/brand-3.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+   
+    <section class="mb-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="banner-bg wow fadeIn animated" style="background-image: url('assets/imgs/banner/banner-8.jpg')">
+                        <div class="banner-content">
+                            <h5 class="text-grey-4 mb-15">Shop Today’s Deals</h5>
+                            <h2 class="fw-600">Happy <span class="text-brand">Mother's Day</span>. Big Sale Up to 40%</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="featured section-padding">
+        <div class="container pb-25">
+            <div class="row">
+                <div class="col-lg-2 col-md-4 mb-md-3 mb-lg-0">
+                    <div class="banner-features wow fadeIn animated hover-up">
+                        <img src="assets/imgs/theme/icons/feature-1.png" alt="">
+                        <h4 class="bg-1">Free Shipping</h4>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-md-3 mb-lg-0">
+                    <div class="banner-features wow fadeIn animated hover-up">
+                        <img src="assets/imgs/theme/icons/feature-2.png" alt="">
+                        <h4 class="bg-3">Online Order</h4>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-md-3 mb-lg-0">
+                    <div class="banner-features wow fadeIn animated hover-up">
+                        <img src="assets/imgs/theme/icons/feature-3.png" alt="">
+                        <h4 class="bg-2">Save Money</h4>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-md-3 mb-lg-0">
+                    <div class="banner-features wow fadeIn animated hover-up">
+                        <img src="assets/imgs/theme/icons/feature-4.png" alt="">
+                        <h4 class="bg-4">Promotions</h4>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-md-3 mb-lg-0">
+                    <div class="banner-features wow fadeIn animated hover-up">
+                        <img src="assets/imgs/theme/icons/feature-5.png" alt="">
+                        <h4 class="bg-5">Happy Sell</h4>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-md-3 mb-lg-0">
+                    <div class="banner-features wow fadeIn animated hover-up">
+                        <img src="assets/imgs/theme/icons/feature-6.png" alt="">
+                        <h4 class="bg-6">24/7 Support</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+
+
+
+<%- include('../layout/userFooter.ejs') %>

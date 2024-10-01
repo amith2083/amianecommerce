@@ -1,0 +1,36 @@
+
+.modal {
+  z-index: 1050; /* Ensure it appears above other content */
+} 
+
+.modal-dialog {
+  max-width: 90%; /* Adjust to fit your layout */
+}
+
+.modal-content {
+  border-radius: 0.5rem; /* Consistent with other elements */
+}
+
+.modal-header {
+  border-bottom: 1px solid #e9ecef; /* Match other borders */
+}
+
+.modal-title {
+  font-family: "Spartan", sans-serif;
+  font-size: 18px; /* Consistent with headings */
+  color: #495057; /* Consistent with text color */
+}
+
+.modal-footer {
+  border-top: 1px solid #e9ecef; /* Match other borders */
+}
+
+/* Image Container */
+.img-container {
+  text-align: center; /* Center the image */
+}
+
+.img-fluid {
+  max-width: 100%; /* Ensure responsiveness */
+  height: auto; /* Maintain aspect ratio */
+} 

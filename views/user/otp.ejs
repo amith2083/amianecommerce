@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMian</title>
+    <link rel="stylesheet" href="/css/userStyle.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+</head>
+<body>
+    
+    
+    <div class="accout-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-2">
+                    <img src="/imgs/user/loginimage.png" width="100%">
+                </div>
+                <div class="col-2">
+                    <div class="form-container">
+                        <div class="form-btn">
+                            <span>OTP Verification</span>
+                            <hr id="indicator" style="transform: translate(10px);">
+                        </div>
+                        
+                        <form id="OTPForm" action="/verify-otp" method="post" onsubmit="return validateOtpForm()">
+                            <input type="hidden" name="email" value="<%= email %>">
+                            <input type="password" placeholder="Enter OTP" name="otp" id="otp-input" required>
+                            <button type="submit" class="btn">Verify OTP</button>
+                            <p id="timer"> <span id="time">60</span> </p>
+                            <a href="#" id="resend-otp" onclick="resendOTP()" style="display:none;">Resend OTP</a>
+                        </form>
+                        <% if (locals.message) { %>
+                            <p style="color:red;"><%= message %></p>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col1">
+                    <h3>Download Our App</h3>
+                    <p>Download App for Android and ios mobile phone.</p>
+                    <div class="app-logo">
+                        <img src="/images/play-store.png">
+                        <img src="/images/app-store.png">
+                    </div>
+                </div>
+                <div class="footer-col2">
+                    <img src="/images/logo-white.png">
+                    <p>Our Purpose Is To Sustainably Make the Pleasure and Benefits of Sports Accessible to the Many.</p>
+                </div>
+                <div class="footer-col3">
+                    <h3>Useful Links</h3>
+                    <ul>
+                        <li>Coupons</li>
+                        <li>Blog Post</li>
+                        <li>Return Policy</li>
+                        <li>Join Affiliate</li>
+                    </ul>
+                </div>
+                <div class="footer-col4">
+                    <h3>Follow Us</h3>
+                    <ul>
+                        <li>Facebook</li>
+                        <li>Twitter</li>
+                        <li>Instagram</li>
+                        <li>YouTube</li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <p class="copyright">Copyright 2020 - Easy Tutorials</p>
+        </div>
+    </div> -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+    <script>
+        // var MenuItems = document.getElementById("MenuItems");
+        // MenuItems.style.maxHeight = "0px";
+        
+        // function menutoggle() {
+        //     if(MenuItems.style.maxHeight == "0px") {
+        //         MenuItems.style.maxHeight = "200px";
+        //     } else {
+        //         MenuItems.style.maxHeight = "0px";
+        //     }
+        // }
+        
+        // var timeLeft = 60;
+        // var timerId = setInterval(countdown, 1000);
+
+        // function countdown() {
+        //     if (timeLeft == 0) {
+        //         clearTimeout(timerId);
+        //         document.getElementById("resend-otp").style.display = "block";
+        //         document.getElementById("timer").style.display = "none";
+        //     } else {
+        //         document.getElementById("time").innerHTML = timeLeft;
+        //         timeLeft--;
+        //     }
+        // }
+
+        // function resendOTP() {
+        //     timeLeft = 60;
+        //     timerId = setInterval(countdown, 1000);
+        //     document.getElementById("resend-otp").style.display = "none";
+        //     document.getElementById("timer").style.display = "block";
+        //     // Add your OTP resend logic here
+        //     fetch('/api/v1/users/resend-otp', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify({ email: process.env.EMAIL_ID }) // Adjust this to use the correct email
+        //     })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         if (data.status === 'success') {
+        //             alert('OTP resent successfully');
+        //         } else {
+        //             alert('Error resending OTP');
+        //         }
+        //     })
+        //     .catch(error => console.error('Error:', error));
+        // }
+
+        // document.getElementById("OTPForm").addEventListener("submit", function(event) {
+        //     event.preventDefault();
+        //     const otp = document.getElementById("otp-input").value;
+        //     // Add your OTP verification logic here
+        //     fetch('/api/v1/users/verify-otp', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify({ userId: 'user-id', otp }) // Adjust this to use the correct user ID
+        //     })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         if (data.status === 'success') {
+        //             window.location.href = '/api/v1/users/register';
+        //         } else {
+        //             alert('Invalid or expired OTP');
+        //         }
+        //     })
+        //     .catch(error => console.error('Error:', error));
+        // });
+        document.getElementById("otp-input").focus();
+
+let timer = 60;
+let timerInterval;
+
+function startTimer() {
+    clearInterval(timerInterval); // Clear any existing timer
+            timer = 60; // Reset timer to 20 seconds
+            otpExpired = false; // Reset expiration flag
+            document.getElementById("time").textContent = timer;
+            document.getElementById("resend-otp").style.display = "none";
+            document.getElementById("timer").style.display = "block"
+            // document.getElementById("otp-input").disabled = false;
+
+    timerInterval = setInterval(() => {
+        timer--;
+        document.getElementById("time").textContent = timer;
+        
+            
+        if (timer <= 0) {
+            clearInterval(timerInterval);
+            document.getElementById("time").classList.add("expired");
+            document.getElementById("time").textContent = "Expired";
+            // document.getElementById("timer").style.display = "none";
+            document.getElementById("resend-otp").style.display = "block";
+            // document.getElementById("otp-input").disabled = true;
+            otpExpired = true;
+        }
+    }, 1000);
+}
+startTimer();
+
+
+function validateOtpForm(){
+    const otpInput = document.getElementById("otp-input").value
+    const email = "<%= email %>";
+            console.log("Email:", email);
+            console.log("OTP Input:", otpInput);
+    console.log("OTP Input:", otpInput);
+
+    if (otpExpired) {
+                Swal.fire({
+                    icon: "error",
+                    title: "OTP Expired",
+                    text: "The OTP has expired. Please request a new one."
+                });
+                return false;
+            }
+    $.ajax({
+        type: "POST",
+        url:"/verify-otp",
+        // data: { email: email, otp: otpInput },
+        data: JSON.stringify({ email: email, otp: otpInput }), // Ensure correct data format
+    contentType: "application/json", // Set content type for JSON
+        success:function(response){
+            console.log(response)
+            if(response.success){
+                Swal.fire({
+                    icon:"success",
+                    title:"OTP Verified Successfully",
+                    showConfirmButton:false,
+                    timer:1500
+                }).then(()=>{
+                    window.location.href = response.redirectUrl
+                })
+            }else{
+                Swal.fire({
+                    icon:"error",
+                    title:"Error",
+                    text:response.message
+                })
+            }
+        },
+        error:function(jqXHR, textStatus, errorThrown){
+            // console.error("AJAX Error:", textStatus, errorThrown);
+            console.error("AJAX Error:", textStatus, errorThrown, jqXHR);
+
+            Swal.fire({
+                icon:"error",
+                title:"OTP Invalid",
+                text:"Please try again"
+
+            })
+        }
+
+    })
+    return false;
+}
+function resendOTP() {
+    // clearInterval(timerInterval)
+    //         time = 60;
+            // document.getElementById("otp-input").disabled = false;
+            // document.getElementById("time").classList.remove('expired')
+            // startTimer();
+            $.ajax({
+                type:"POST",
+                url:"/resend-otp",
+                // data: { email: "<%= email %>" },
+                data: JSON.stringify({ email: "<%= email %>" }), // Ensure correct data format
+        contentType: "application/json", // Set content type for JSON
+                success:function(response){
+            console.log(response)
+            if(response.success){
+                Swal.fire({
+                    icon:"success",
+                    title:"OTP Resend Successfully",
+                    showConfirmButton:false,
+                    timer:1500
+                })
+               
+                        startTimer();
+            }else{
+                Swal.fire({
+                    icon:"error",
+                    title:"Error",
+                    text:"An error occured while sending OTP,Please try again"
+                })
+            }
+        },
+
+        error: function(jqXHR, textStatus, errorThrown) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "An error occurred while sending OTP. Please try again."
+                    });
+                }
+            });
+        return false;
+        }
+    
+        
+           
+        
+    </script>
+    
+    
+</body>
+</html>

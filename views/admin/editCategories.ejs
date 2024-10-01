@@ -1,0 +1,110 @@
+<%- include('../layout/adminHeader.ejs') %>
+<section class="content-main">
+  <div class="content-header">
+    <div>
+      <h2 class="content-title card-title">Edit Categories</h2>
+      <p> Edit  category</p>
+    </div>
+    <div>
+      <input type="text" placeholder="Search Categories" class="form-control bg-white">
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-3">
+          <form id="edit-category-form" action="/admin/editcategory/<%= category._id %>" method="POST" enctype="multipart/form-data">
+            <div class="mb-4">
+              <label for="product_name" class="form-label">Name</label>
+              <input type="text" name="name" placeholder="Type here" class="form-control" id="product_name" value="<%= category.name %>" />
+            </div>
+            <!-- <div class="mb-4">
+              <label class="form-label">Description</label>
+              <textarea name="description" placeholder="Type here" class="form-control"></textarea>
+            </div> -->
+            <div class="mb-4">
+                <label class="form-label">Upload Image</label>
+                <input type="file" name="file" class="form-control" />
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">update category</button>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-9">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <!-- <thead>
+                <tr>
+                  <th class="text-center">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" />
+                    </div>
+                  </th>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Slug</th>
+                  <th>Order</th>
+                  <th class="text-end">Action</th>
+                </tr>
+              </thead> -->
+              <thead>
+                <tr>
+                    <th class="text-center">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" />
+                        </div>
+                    </th>
+                    <th>No</th>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <!-- <th>Status</th> -->
+                    <!-- <th>Slug</th>
+                    <th>Order</th> -->
+                    <!-- <th class="text-end">Action</th> -->
+                </tr>
+            </thead>
+              <tbody>
+              
+                <tr>
+                  <td class="text-center">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" />
+                    </div>
+                  </td>
+                  <td>1</td>
+                  <td><b><%= category.name %></b></td>
+                  <td><img src="<%= category.image %>" alt="category image" style="max-width: 50px; max-height: 50px;"></td>
+                  <!-- <td>
+                    <%# if (category.status === false) { %>
+                      <span class="text-success">Active</span>
+                    <%#} else { %>
+                      <span class="text-danger">Inactive</span>
+                    <%# } %>
+                  </td> -->
+                 
+                  
+                  <!-- <td class="text-end">
+                    <div class="dropdown">
+                      <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm">
+                        <i class="material-icons md-more_horiz"></i>
+                      </a>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">View detail</a>
+                        <a class="dropdown-item" href="#">Edit info</a>
+                        <a class="dropdown-item text-danger" href="#">Delete</a>
+                      </div>
+                    </div>
+                  </td> -->
+                </tr> 
+              
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<%- include('../layout/adminFooter.ejs') %>

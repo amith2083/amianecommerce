@@ -1,0 +1,103 @@
+<%- include('../layout/userHeader.ejs') %>
+<main class="main">
+    <div class="page-header breadcrumb-wrap">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/home" rel="nofollow">Home</a>
+                <span></span> <a href="/profile/orders">My Orders</a>
+                <span></span> Order Details
+            </div>
+        </div>
+    </div>
+    <section class="pt-150 pb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 m-auto">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Order Details</h5>
+                        </div>
+                        <div class="card-body">
+                            <h6>Order Number: <span id="order-number"><%= order.orderNumber %></span></h6>
+                            <h6>Date: <%= order.createdAt.toDateString() %></h6>
+                            <h6>Status: <%= order.status %></h6>
+                            <h6>Applied coupon: <%= order.couponCode %></h6>
+                            <h6>Total: Rs <%= order.totalPrice %></h6>
+                            <hr>
+                            <h5>Order Items</h5>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Product Name</th>
+                                            <th>Quantity</th>
+                                            <th>Price per Unit</th>
+                                            <th>Total Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% order.orderItems.forEach(item => { %>
+                                            <tr>
+                                                <td><img src="<%= item.productId.images[0] %>" alt="No Image" style="width: 100px; height: auto;"></td>
+                                                <td><%= item.productId.name %></td>
+                                                   <td><%= item.quantity %></td>
+                                              <td>Rs <%= item.productId.salesPrice %></td>
+                                           <td>Rs <%= item.quantity * item.productId.salesPrice %></td>
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <% if (order.paymentStatus === 'Paid') { %>
+                            <hr>
+                            <!-- Invoice Section -->
+                           
+                            <div id="invoice-section">
+                            <h5>Invoice</h5>
+                            <h6>Shipping Address:</h6>
+                            <p>
+                                <%= order.shippingAddress.name %><br>
+                                <%= order.shippingAddress.address %><br>
+                                <%= order.shippingAddress.city %>, <%= order.shippingAddress.state %>, <%= order.shippingAddress.zip %><br>
+                                <%= order.shippingAddress.country %><br>
+                                Phone: <%= order.shippingAddress.phone %>
+                            </p>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Product Name</th>
+                                            <th>Quantity</th>
+                                            <th>Price per Unit</th>
+                                            <th>Total Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% order.orderItems.forEach(item => { %>
+                                            <tr>
+                                                <td><%= item.productId.name %></td>
+                                                <td><%= item.quantity %></td>
+                                                <td>Rs <%= item.productId.salesPrice %></td>
+                                                <td>Rs <%= item.quantity * item.productId.salesPrice %></td>
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <h6>Total: Rs <%= order.totalPrice %></h6>
+                        </div>
+                         <!-- Button to Download PDF -->
+                         <div class="text-center mt-3">
+                            <button id="download-pdf" class="btn btn-sm">Download Invoice as PDF</button>
+                        </div>
+                        <% } %>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<%- include('../layout/userFooter.ejs') %>

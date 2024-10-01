@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>USERS MANAGEMENT</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/css/adminstyle.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100" rel="stylesheet">
+    <style>
+        .table-container {
+            width: 50%; /* Adjust width as needed */
+            margin: 5% auto;
+        }
+
+        .table-container .table {
+            margin-top: 80px;
+        }
+
+        .table-container .table thead th {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        .table-container .table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .table-container .table tbody tr:nth-child(odd) {
+            background-color: #e9ecef;
+        }
+
+        .table-container .table td {
+            vertical-align: middle;
+        }
+
+        .table-container .table a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .table-container .table a:hover {
+            text-decoration: none;
+            color: white;
+        }
+
+        .centrediv {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Adjust as needed */
+        }
+
+        .pagination-container {
+            margin-top: 20px;
+        }
+
+        .user-editor {
+            margin-top: 40px;
+            margin-bottom: 30px;
+            width: 50%; /* Adjust width as needed */
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-editor .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .user-editor .form-group {
+            flex: 1;
+            margin: 10px;
+        }
+
+        .user-editor .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<%- include('../layout/adminHeader') %>
+
+<div class="centrediv">
+    <div class="table-container">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Customer Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Mobile No</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%# users.forEach(user => { %>
+                    <tr>
+                        <td><%= user.name %></td>
+                        <td><%= user.email %></td>
+                        <td><%= user.mobno %></td>
+                        <td> 
+                            <% if (user.isBlocked === false) { %>
+                                <button class="btn btn-success" style="width: 70px;">
+                                    <a href="/admin/blockCustomer?id=<%= user._id %>">Active</a>
+                                </button>
+                            <% } else { %>
+                                <button class="btn btn-danger" style="width: 70px;">
+                                    <a href="/admin/unblockCustomer?id=<%= user._id %>">Blocked</a>
+                                </button>
+                            <% } %>
+                        </td>
+                        <td>
+                           <a href="/api/v1/admin/userdetails/edit/<%= user._id %>"><button class="btn btn-primary btn-sm">Edit</button></a> 
+                           <a href=""> <button class="btn btn-danger btn-sm">Delete</button></a>
+                        </td>
+                    </tr>
+                <%# }); %>
+            </tbody>
+        </table>
+        <div class="page-btn">
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+            <span>&#8594;</span>
+        </div>
+    </div>
+    
+    <div class="user-editor">
+        <h2>User Editor</h2>
+        <form action="/api/v1/admin/userdetails/edit/<%= user._id %>" method="post">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="firstName"> Name</label>
+                    <input type="text" name="name" class="form-control" id="firstName" value="<%= user.name %>">
+                </div>
+                <!-- <div class="form-group col-md-6">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" value="M S">
+                </div> -->
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" class="form-control" id="dob">
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Your Gender</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="gender" id="male" value="male" checked>
+                            <label class="form-check-label" for="male">Male</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="gender" id="female" value="female">
+                            <label class="form-check-label" for="female">Female</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="city">City / District / Town</label>
+                    <input type="text" class="form-control" id="city" >
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="state">State</label>
+                    <select id="state" class="form-control">
+                        <option selected></option>
+                        <option>...</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="pinCode">Pin Code</label>
+                    <input type="text" class="form-control" id="pinCode" >
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="country">Country</label>
+                    <select id="country" class="form-control">
+                        <option selected>India</option>
+                        <option>...</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <textarea class="form-control" id="address" rows="3"></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="mobileNumber">Mobile Number</label>
+                    <input type="text" name="mobno" class="form-control" id="mobileNumber"  value="<%= user.mobno %>">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="email">E-mail</label>
+                    <input type="email" name="email" class="form-control" id="email" value="<%= user.email %>" >
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="altNumber">Alternate Number</label>
+                    <input type="text" class="form-control" id="altNumber">
+                </div>
+                <div class="form-group col-md-6 status-group">
+                    <label>Status</label>
+                    <div>
+                        <!-- <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="activeStatus"name="isUnBlocked" value="true">
+                            <label class="form-check-label" for="activeStatus" >Unblock</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="blockStatus" name="isBlocked" value="true">
+                            <label class="form-check-label" for="blockStatus" >Block</label>
+                        </div> -->
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="status" id="blockStatus" value="block">
+                            <label class="form-check-label" for="blockStatus">Block</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="status" id="unblockStatus" value="unblock" checked>
+                            <label class="form-check-label" for="unblockStatus">Unblock</label>
+                        </div>
+                        <input type="text" class="form-control" id="noOfDays" placeholder="No of Days" style="width: 105px;">
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Update</button>
+                <button type="button" class="btn btn-secondary">Cancel</button>
+            </div>
+        </form>
+      
+    </div>
+    
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+</body>
+</html>

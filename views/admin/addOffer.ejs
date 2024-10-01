@@ -1,0 +1,160 @@
+<%- include('../layout/adminHeader.ejs') %>
+<section class="content-main">
+    <div class="row">
+        <div class="col-6">
+            <div class="content-header">
+                <h2 class="content-title">Add New Offer</h2>
+                <!-- <div>
+                    <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
+                    <button class="btn btn-md rounded font-sm hover-up">Add</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form id="my-form-offer" action="/admin/offer" method="POST">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h6>1. General Info</h6>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="mb-4">
+                                    <label class="form-label">Offer Code</label>
+                                    <input type="text" class="form-control" id="code" name="code" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Offer Type</label>
+                                    <select class="form-select" id="offerType" name="offerType" required>
+                                        <option value="percentage">Percentage</option>
+                                        <option value="fixed">Fixed Amount</option>
+                                    </select>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Offer Value</label>
+                                    <input type="number" class="form-control" id="offerValue" name="offerValue" min="0" required>
+                                </div>
+                                <!-- <div class="mb-4">
+                                    <label class="form-label">Minimum Purchase Amount</label>
+                                    <input type="number" class="form-control" id="minPurchaseAmount" name="minPurchaseAmount" min="0">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Maximum Discount Amount</label>
+                                    <input type="number" class="form-control" id="maxDiscountAmount" name="maxDiscountAmount" min="0">
+                                </div> -->
+                                <div class="mb-4">
+                                    <label class="form-label">Start Date</label>
+                                    <input type="date" class="form-control" id="startDate" name="startDate" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">End Date</label>
+                                    <input type="date" class="form-control" id="endDate" name="endDate" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Description</label>
+                                    <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Applicable To</label>
+                                    <select class="form-select" id="applicableTo" name="applicableTo">
+                                        <option value="">None</option>
+                                        <option value="product">Product</option>
+                                        <option value="category">Category</option>
+                                    </select>
+                                </div>
+                                <div class="mb-4" id="productSelect" style="display: none;">
+                                    <label class="form-label">Select Product</label>
+                                    <select class="form-select" id="applicableToProduct" name="applicableToProduct">
+                                        <% products.forEach(product => { %>
+                                            <option value="<%= product._id %>"><%= product.name %></option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+                                <div class="mb-4" id="categorySelect" style="display: none;">
+                                    <label class="form-label">Select Category</label>
+                                    <select class="form-select" id="applicableToCategory" name="applicableToCategory">
+                                        <% categories.forEach(category => { %>
+                                            <option value="<%= category._id %>"><%= category.name %></option>
+                                        <% }); %>
+                                    </select>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Usage Limit</label>
+                                    <input type="number" class="form-control" id="usageLimit" name="usageLimit" min="0">
+                                </div>
+                            </div> <!-- col.// -->
+                        </div> <!-- row.// -->
+                        <div class="row">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-md rounded font-sm hover-up">Add Offer</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-12">
+            <h3>Existing Offers</h3>
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Type</th>
+                                <th>Value</th>
+                                <!-- <th>Min Purchase</th>
+                                <th>Max Discount</th> -->
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Description</th>
+                                <th>Applicable To</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% offers.forEach(offer => { %>
+                                <tr>
+                                    <td><%= offer.code %></td>
+                                    <td><%= offer.offerType %></td>
+                                    <td><%= offer.offerValue %></td>
+                                   
+                                    <td><%= new Date(offer.startDate).toLocaleDateString() %></td>
+                                    <td><%= new Date(offer.endDate).toLocaleDateString() %></td>
+                                    <td><%= offer.description %></td>
+                                    <td>
+                                        <%= offer.applicableToProduct ? 'Product: ' + offer.applicableToProduct.name : '' %>
+                                        <%= offer.applicableToCategory ? 'Category: ' + offer.applicableToCategory.name : '' %>
+                                    </td>
+                                    <td><%= offer.status %></td>
+                                    <td>
+                                        <% if (offer.status === 'expired') { %>
+                                            <button class="btn btn-secondary btn-sm" disabled>Expired</button>
+                                          <% } else { %>
+                                            <% if (offer.status === 'active') { %>
+                                              <form class="block-offer-form" action="/admin/block-offer/<%= offer._id %>" method="POST" style="display:inline;">
+                                                <button type="submit" class="btn btn-warning btn-sm block-offer-btn" data-id="<%= offer._id %>">Block</button>
+                                              </form>
+                                            <% } else { %>
+                                              <form class="unblock-offer-form" action="/admin/unblock-offer/<%= offer._id %>" method="POST" style="display:inline;">
+                                                <button type="submit" class="btn btn-success btn-sm unblock-offer-btn" data-id="<%= offer._id %>">Unblock</button>
+                                              </form>
+                                            <% } %>
+                                          <% } %>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> <!-- content-main end// -->
+<%- include('../layout/adminFooter.ejs') %>

@@ -1,0 +1,69 @@
+<%- include('../layout/adminHeader.ejs') %> 
+<section class="content-main">
+    <div class="row">
+        <div class="col-9">
+            <div class="content-header">
+                <h2 class="content-title">Edit Coupon</h2>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Coupon Details</h4>
+                </div>
+                <div class="card-body">
+                    <form id="edit-coupon-form" action="/admin/updatecoupon/<%= coupon._id %>" data-coupon-id="<%= coupon._id %>" method="POST">
+                        <!-- Coupon Code (Disabled) -->
+                        <div class="mb-4">
+                            <label for="coupon_code" class="form-label">Coupon Code</label>
+                            <input type="text" name="code" value="<%= coupon.code %>" class="form-control" id="coupon_code" disabled>
+                        </div>
+
+                        <!-- Start Date -->
+                        <div class="mb-4">
+                            <label for="start_date" class="form-label">Start Date</label>
+                            <input type="date" name="startDate" value="<%= new Date(coupon.startDate).toISOString().split('T')[0] %>" class="form-control" id="start_date" required>
+                        </div>
+
+                        <!-- End Date -->
+                        <div class="mb-4">
+                            <label for="end_date" class="form-label">End Date</label>
+                            <input type="date" name="endDate" value="<%= new Date(coupon.endDate).toISOString().split('T')[0] %>" class="form-control" id="end_date" required>
+                        </div>
+
+                        <!-- Discount -->
+                        <div class="mb-4">
+                            <label for="discount" class="form-label">Discount (%)</label>
+                            <input type="number" name="discount" value="<%= coupon.discount %>" class="form-control" id="discount" min="1" max="100" required>
+                        </div>
+
+                        <!-- Maximum Purchase Amount -->
+                        <div class="mb-4">
+                            <label for="maximum_purchase_amount" class="form-label">Maximum Purchase Amount</label>
+                            <input type="number" name="maximumPurchaseAmount" value="<%= coupon.maximumPurchaseAmount %>" class="form-control" id="maximum_purchase_amount" required>
+                        </div>
+
+                        <!-- Usage Limit -->
+                        <div class="mb-4">
+                            <label for="usage_limit" class="form-label">Usage Limit</label>
+                            <input type="number" name="usageLimit" value="<%= coupon.usageLimit %>" class="form-control" id="usage_limit">
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-4">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea name="description" class="form-control" id="description"><%= coupon.description %></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div>
+                            <button type="submit" class="btn btn-md rounded font-sm hover-up">Update Coupon</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> <!-- content-main end// -->
+<%- include('../layout/adminFooter.ejs') %>
+

@@ -1,0 +1,169 @@
+<%- include('../layout/adminHeader.ejs') %>
+<section class="content-main">
+    <div class="row">
+        <div class="col-6">
+            <div class="content-header">
+                <h2 class="content-title">Edit Product</h2>
+                <!-- <div>
+                    <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
+                    <button class="btn btn-md rounded font-sm hover-up">Add</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form id="editProductForm"action="/admin/editproduct/<%= product._id %>" data-product-id="<%= product._id %>"method="POST" enctype="multipart/form-data">
+               <!-- Hidden input field for removed images -->
+               <input type="hidden" id="removedImages" name="removedImages" value="[]">
+               <input type="hidden" id="productId" name="productId" value="<%= product._id %>">
+           
+
+    <!-- Hidden input field for new images -->
+    <!-- <input type="hidden" id="newImages" name="newImages" value=""> -->
+                        <div class="row">
+                        <div class="col-md-3">
+                            <h6>1. General info</h6>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="mb-4">
+                                <label class="form-label">Product Title</label>
+                                <input type="text" placeholder="Type here" class="form-control" name="name" value="<%= product.name %>">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Description</label>
+                                <textarea placeholder="Type here" class="form-control" rows="4" name="description" ><%= product.description %></textarea>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Brand Name</label>
+                                <select class="form-select" name="brand" >
+                                    <!-- <option><# product.name %</option>
+                                    <option> Adidas </option>
+                                    <option> Nike </option>
+                                    <option> Puma </option> -->
+                                    <option selected><%= product.brand %></option>
+        <% if (product.brand !== 'Adidas') { %>
+            <option>Arrow</option>
+        <% } %>
+        <% if (product.brand !== 'Nike') { %>
+            <option>Highlander</option>
+        <% } %>
+        <% if (product.brand !== 'Puma') { %>
+            <option>Roadster</option>
+        <% } %>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Quantity</label>
+                                <input type="number" placeholder="Enter quantity" class="form-control" name="totalQty" value="<%= product.totalQty %>" min="0">
+                            </div>
+                        </div> <!-- col.// -->
+                    </div> <!-- row.// -->
+                    <hr class="mb-4 mt-0">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h6>2. Pricing</h6>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="mb-4">
+                                <label class="form-label">Normalprice in Rs</label>
+                                <input type="text" name="normalPrice" placeholder="Rs" class="form-control" value="<%= product.normalPrice %>">
+                            </div>
+                            <!-- <div class="mb-4">
+                                <label class="form-label">salesprice in Rs</label>
+                                <input type="text" name="salesPrice" placeholder="Rs" class="form-control" value="<%# product.salesPrice %>">
+                            </div> -->
+                        </div> <!-- col.// -->
+                    </div> <!-- row.// -->
+                    <hr class="mb-4 mt-0">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h6>3. Category</h6>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="mb-4">
+                              
+                                <% categories.forEach(function (category) { %>
+                                    <label class="mb-2 form-check form-check-inline" style="width: 45%;">
+                                        <input class="form-check-input" name="category" type="radio" value="<%= category._id %>" <%= product.category === category.name ? 'checked' : '' %>>
+                                        <span class="form-check-label"><%= category.name %></span>
+                                    </label>
+                                <% }); %>
+                            </div>
+                        </div> <!-- col.// -->
+                    </div> <!-- row.// -->
+                    <hr class="mb-4 mt-0">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h6>4. Media</h6>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="mb-4">
+                                <label class="form-label">Current Images</label>
+                                <div class="current-images image-container" >
+                                    <% product.images.forEach(function (image,index) { %>
+                                        <div class="image-wrapper" data-image-id="image-<%= index %>">
+                                            <img src="<%= image %>" alt="Product Image" class="img-thumbnail" style="max-width: 20%;" data-image="<%= image %>" >
+                                            <button type="button" class="btn btn-danger btn-sm close-icon" data-image="<%= image %>">&times;</button>
+                                            <!-- <button type="button" class="close" onclick="removeImage('<%# image %>')">&times;</button> -->
+                                          
+                                        </div>
+                                        <% }); %>
+                                            
+                                        </div>
+                                  
+                                </div>
+                            </div>
+                            <!-- <div class="mb-4">
+                                <label class="form-label">Images</label>
+                                <input class="form-control"id="fileInput" name="files" type="file" multiple>
+                            </div> -->
+                            <div class="mb-4">
+                                <label class="form-label">Add/Replace Images</label>
+                                <input type="file" id="inputEditImage" class="form-control" name="files" multiple >
+                                <!-- <input class="form-control" id="newImages" name="files" type="file" multiple> -->
+                                
+                            </div>
+                        </div> <!-- col.// -->
+                    </div> <!-- .row end// -->
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="submit" name="action" value="add_product" class="btn btn-md rounded font-sm hover-up">update</button>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+</section> <!-- content-main end// -->
+<div class="modal fade" id="cropModalEdit" tabindex="-1" role="dialog" aria-labelledby="cropModalEditLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cropModalEditLabel">Crop Image</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="img-container">
+                    <img id="imageToCropEdit" src="" alt="Picture">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancelEditCrop">Cancel</button>
+                <button type="button" class="btn btn-primary" id="cropEditImage">Crop</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Hidden input field for cropped images -->
+<input type="hidden" id="croppedEditImageURLs" name="croppedEditImageURLs" value="">
+
+
+        
+        <%- include('../layout/adminFooter.ejs') %>

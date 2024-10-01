@@ -1,0 +1,176 @@
+﻿<%- include('../layout/userHeader.ejs') %>
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="/home" rel="nofollow">Home</a>
+                  <a href="/products"><span></span> Shop</a>  
+                    <span></span> Your Cart
+                </div>
+            </div>
+        </div>
+        <section class="mt-50 mb-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <% if (cart.length > 0) { %> <!-- Check if cart has products -->
+                        <div class="table-responsive">
+                            <!-- <form action="/cart/update?_method=PUT" method="post">
+                                <input type="hidden" name="_method" value="PUT"> -->
+                           
+                                
+                            <table class="table shopping-summery text-center clean">
+                                <thead>
+                                    <tr class="main-heading">
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Subtotal</th>
+                                        <th scope="col">Remove</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  
+                                    <% cart.forEach(item => { %>
+                                    <tr>
+                                        <td class="image product-thumbnail"><img src="<%= item.productId.images[0] %>" alt="#"></td>
+                                        <td class="product-des product-name">
+                                            <h5 class="product-name"><a href="shop-product-right.html"><%= item.productId.name %></a></h5>
+                                            <p class="font-xs">Brand:<%= item.productId.brand %><br> Selected Size:<%= item.size %>
+                                            </p>
+                                        </td>
+                                        <td class="price" data-title="Price"><span>RS:<%= item.productId.salesPrice %></span></td>
+                                        <td class="text-center" data-title="Stock">
+                                            <!-- <div class="detail-qty border radius  m-auto"> -->
+                                                 <!-- <a href="#" class="qty-down" data-id="<%# item._id %>"><i class="fi-rs-angle-small-down"></i></a>  -->
+                                                <!-- <span class="qty-val"></span>  -->
+                                                <!-- <input type="hidden" name="itemIds[]" value="<%# item._id %>">
+                                                <input type="number" data-item-id="<%# item._id %>" class="qty-val" value="<%# item.quantity %>" min="1" max="5" style="width: 40%;" data-price="<%# item.productId.salesPrice %>"> -->
+                                                <input type="number" class="qty-val" data-id="<%= item._id %>" value="<%= item.quantity %>"  style="width: 25%;" data-price="<%= item.productId.salesPrice %>" data-total-qty="<%= item.productId.totalQty %>">
+                                            
+                                                 <!-- <a href="#" class="qty-up" data-id="<%# item._id %>"><i class="fi-rs-angle-small-up"></i></a> -->
+                                            <!-- </div> -->
+                                        </td>
+                                        <td class="text-right" data-title="Cart">
+                                            <span class="subtotal">Rs <%= item.quantity * item.productId.salesPrice %></span>
+                                        </td>
+                                        <td class="action" data-title="Remove">
+                                            <a href="#" class="text-muted " onclick="event.preventDefault();  if(confirm('Are you sure you want to remove this product?')) { document.getElementById('delete-form-<%= item._id %>').submit(); }">
+                                                <i class="fi-rs-trash"></i>
+                                            </a>
+                                            <form id="delete-form-<%= item._id %>" action="/cart/remove/<%= item._id %>?_method=DELETE" method="POST" style="display: none;">
+
+                                            <input type="hidden" name="_method" value="DELETE">
+                                         </form>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                                    <!-- <tr>
+                                        <td class="image"><img src="assets/imgs/shop/product-11-2.jpg" alt="#"></td>
+                                        <td class="product-des">
+                                            <h5 class="product-name"><a href="shop-product-right.html">Amazon Essentials Women's Tank</a></h5>
+                                            <p class="font-xs">Sit at ipsum amet clita no est,<br> sed amet sadipscing et gubergren</p>
+                                        </td>
+                                        <td class="price" data-title="Price"><span>$75.00 </span></td>
+                                        <td class="text-center" data-title="Stock">
+                                            <div class="detail-qty border radius  m-auto">
+                                                <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
+                                                <span class="qty-val">2</span>
+                                                <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
+                                            </div>
+                                        </td>
+                                        <td class="text-right" data-title="Cart">
+                                            <span>$150.00 </span>
+                                        </td>
+                                        <td class="action" data-title="Remove"><a href="#" class="text-muted"><i class="fi-rs-trash"></i></a></td>
+                                    </tr> -->
+                                    <!-- <tr>
+                                        <td class="image"><img src=" %>" alt="#"></td>
+                                        <td class="product-des">
+                                            <h5 class="product-name"><a href="shop-product-right.html"> %> </a></h5>
+                                            <p class="font-xs">Erat amet et et amet diam et et.<br> Justo amet at dolore
+                                            </p>
+                                        </td>
+                                        <td class="price" data-title="Price"><span>$62.00 </span></td>
+                                        <td class="text-center" data-title="Stock">
+                                            <div class="detail-qty border radius  m-auto">
+                                                <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
+                                                <span class="qty-val">1</span>
+                                                <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
+                                            </div>
+                                        </td>
+                                        <td class="text-right" data-title="Cart">
+                                            <span>$62.00 </span>
+                                        </td>
+                                        <td class="action" data-title="Remove"><a href="#" class="text-muted"><i class="fi-rs-trash"></i></a></td>
+                                    </tr> -->
+<!--                                   
+                                        <tr>
+                                            <td colspan="6" class="text-center">No items in the cart</td>
+                                        </tr> -->
+                                    
+                                    <!-- <tr>
+                                        <td colspan="6" class="text-end">
+                                            <a href="#" class="text-muted"> <i class="fi-rs-cross-small"></i> Clear Cart</a>
+                                        </td>
+                                    </tr> -->
+                                </tbody>
+                            </table>
+                        
+                        <div class="cart-action text-start">
+                       
+                            
+                        
+                            <a class="btn " href="/products"><i class="fi-rs-shopping-bag mr-10"></i>Continue Shopping</a>
+                        </div>
+                    <!-- </form> -->
+                    </div>
+                    
+                    
+                        <div class="divider center_icon mt-50 mb-50"><i class="fi-rs-fingerprint"></i></div>
+                        <div class="row mb-50">
+                           
+                            <div class="col-lg-6 col-md-12 ms-auto ">
+                                <div class="border p-md-4 p-30 border-radius cart-totals">
+                                    <div class="heading_s1 mb-3">
+                                        <h4>Cart Totals</h4>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="cart_total_label">Cart Subtotal</td>
+                                                    <td class="cart_total_amount"><span class="font-lg fw-900 text-brand">Rs <%= subtotal %></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="cart_total_label">Shipping</td>
+                                                    <td class="cart_total_amount"> <i class="ti-gift mr-5"></i> Free Shipping</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="cart_total_label">Total</td>
+                                                    <td class="cart_total_amount"><strong><span class="font-xl fw-900 text-brand">Rs <%= subtotal %></span></strong></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <a href="/checkout" class="btn "> <i class="fi-rs-box-alt mr-10"></i> Proceed To CheckOut</a>
+                                </div>
+                            </div>
+                        </div>
+                  
+                        <% } else { %> <!-- If cart is empty -->
+                            <div class="text-center">
+                                <h3>Your cart is empty</h3>
+                                <a class="btn" href="/products"><i class="fi-rs-shopping-bag mr-10"></i>Continue Shopping</a>
+                            </div>
+                            <% } %>
+                        
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <%- include('../layout/userFooter.ejs') %>
+  

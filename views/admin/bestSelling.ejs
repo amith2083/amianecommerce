@@ -1,0 +1,73 @@
+<%- include('../layout/adminHeader.ejs') %>
+<section class="content-main">
+  <div class="content-header">
+    <div>
+      <h2 class="content-title card-title">Dashboard Overview</h2>
+      <p>Summary of best-selling products and product categories.</p>
+    </div>
+    <div>
+      <a href="/admin/order" class="btn btn-secondary">
+        <i class="text-muted material-icons md-arrow_back"></i> Back to Orders
+      </a>
+    </div>
+  </div>
+
+  <!-- Best Selling Products -->
+  <div class="card mb-4">
+    <header class="card-header">
+      <h4 class="card-title">Best Selling Products</h4>
+    </header>
+    <div class="card-body">
+      <div class="row">
+        <% if (bestSellingProducts.length > 0) { %>
+          <% bestSellingProducts.forEach(product => { %>
+            <div class="col-lg-3 col-md-4 mb-4">
+              <div class="card">
+                <img src="<%= product.images[0] %>" class="card-img-top" alt="<%= product.name %>" style="width: 70px;height: 70px; border-radius: 50%; object-fit: cover;">
+                <div class="card-body">
+                  <h5 class="card-title"><%= product.name %></h5>
+                  <p class="card-text">Number of Orders: <%= product.count %></p>
+                  <p class="card-text">Category: <%= product.category.name %></p>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <div class="col-12">
+            <p class="text-center">No best-selling products found.</p>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Categories -->
+  <div class="card mb-4">
+    <header class="card-header">
+      <h4 class="card-title">Product Categories</h4>
+    </header>
+    <div class="card-body">
+      <div class="row">
+        <% if (bestSellingCategories.length > 0) { %>
+          <%bestSellingCategories.forEach(category => { %>
+            <div class="col-lg-3 col-md-4 mb-4">
+              <div class="card">
+                <img src="<%= category.image %>" class="card-img-top" alt="<%= category.name %> " style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover;">
+                <div class="card-body">
+                  <h5 class="card-title"><%= category.name %></h5>
+                  <p class="card-text">Number of Orders: <%= category.count %></p>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <div class="col-12">
+            <p class="text-center">No categories found.</p>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+</section>
+<%- include('../layout/adminFooter.ejs') %>
