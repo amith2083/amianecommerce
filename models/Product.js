@@ -1,18 +1,19 @@
 import mongoose from "mongoose";
 import Offer from "./offer.js";
 const Schema = mongoose.Schema;
-const ProductSchema = new Schema({
-    name:{
-        type:String,
-        required:true
+const ProductSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
     },
-    description:{
-        type:String,
-        required:true
+    description: {
+      type: String,
+      required: true,
     },
-    brand:{
-        type:String,
-        required:true
+    brand: {
+      type: String,
+      required: true,
     },
     // category:{
     //     type:String,
@@ -20,13 +21,13 @@ const ProductSchema = new Schema({
     //     required:true
     // },
     category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
-        required: true
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
     },
-    sizes:{
-        type:[String],
-        enum:['S','M','L','XL','XXL']
+    sizes: {
+      type: [String],
+      enum: ["S", "M", "L", "XL", "XXL"],
     },
     // colors:{
     //     type:[String],
@@ -37,28 +38,32 @@ const ProductSchema = new Schema({
     //     ref:'admin',
     //     required:true
     // },
-    images:[{
-        type:String,
+    images: [
+      {
+        type: String,
         // default:'https://via.placeholder.com/150',
-        required:true
-    }],
-    reviews:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Reviews',
-    }],
-    normalPrice:{
-        type:Number,
-        required:true
+        required: true,
+      },
+    ],
+    reviews: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Reviews",
+      },
+    ],
+    normalPrice: {
+      type: Number,
+      required: true,
     },
-    salesPrice:{
-        type:Number,
-        default: function () {
-            return this.normalPrice // Set salesPrice equal to regularPrice by default
-          },
+    salesPrice: {
+      type: Number,
+      default: function () {
+        return this.normalPrice; // Set salesPrice equal to regularPrice by default
+      },
     },
-    totalQty:{
-        type:Number,
-        required:true
+    totalQty: {
+      type: Number,
+      required: true,
     },
     // totalSold:{
     //     type:Number,
@@ -70,19 +75,21 @@ const ProductSchema = new Schema({
     //     required:false
 
     // },
-    status:{
-        type:Boolean,
-        default:false
+    status: {
+      type: Boolean,
+      default: false,
     },
-    offers: [{
+    offers: [
+      {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Offer'
-    }]
-},
-{
-    timestamps:true,
-    toJSON:{virtuals:true}
-}
+        ref: "Offer",
+      },
+    ],
+  },
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+  }
 );
 
 // Method to update salesPrice when offers are added/modified/expired
@@ -97,8 +104,6 @@ const ProductSchema = new Schema({
 //         console.log('No active offers found. Sales price remains unchanged.');
 //         return this.save();
 //     }
-
-   
 
 //     // Apply only active offers to calculate the discounted price
 //     const activeOffers = this.offers.filter(offer => offer.status === 'active' && !offer.isExpired);
@@ -135,6 +140,5 @@ const ProductSchema = new Schema({
 // };
 // Product.js
 
-
-const Product = mongoose.model('Product',ProductSchema);
+const Product = mongoose.model("Product", ProductSchema);
 export default Product;

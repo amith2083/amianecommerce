@@ -97,8 +97,7 @@ export const createOrder = asyncHandler(async (req, res) => {
   //     });
   //   }
   // }
-   
-  
+
   const productIds = orderItems.map((item) => item.productId._id);
   const products = await Product.find({ _id: { $in: productIds } });
   console.log("Fetched Products:", products);
@@ -133,7 +132,7 @@ export const createOrder = asyncHandler(async (req, res) => {
     // totalPrice: couponFound
     //   ? parseFloat(totalPrice) - parseFloat(totalPrice) * discount
     //   : totalPrice,
-    totalPrice:totalPrice<500?totalPrice+100:totalPrice,
+    totalPrice: totalPrice < 500 ? totalPrice + 100 : totalPrice,
     paymentMethod,
     couponCode: couponFound ? couponFound.code : "",
     orderNumber,
@@ -255,62 +254,75 @@ export const createOrder = asyncHandler(async (req, res) => {
 
 // Route to create a new Razorpay order for retrying payment
 export const retryPayment = asyncHandler(async (req, res) => {
-    const { orderId } = req.params;
-  console.log(orderId)
-    try {
-        // Fetch the order from the database
-        const order = await Order.findById(orderId);
-  
-        if (!order) {
-            return res.status(404).json({ success: false, message: 'Order not found' });
-        }
-  
-        // Create a new Razorpay order using the existing totalPrice
-        const razorpayOrder = await createRazorpayOrder(order._id, order.totalPrice);
-  
-        res.json({
-            success: true,
-            razorpayKey: process.env.RAZORPAY_KEY_ID, // Razorpay key to be used in frontend
-            amount: razorpayOrder.amount, // Amount in paise
-            orderId: razorpayOrder.id, // New Razorpay order ID
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, message: 'Failed to retry payment' });
+  const { orderId } = req.params;
+  console.log(orderId);
+  try {
+    // Fetch the order from the database
+    const order = await Order.findById(orderId);
+
+    if (!order) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not found" });
     }
+
+    // Create a new Razorpay order using the existing totalPrice
+    const razorpayOrder = await createRazorpayOrder(
+      order._id,
+      order.totalPrice
+    );
+
+    res.json({
+      success: true,
+      razorpayKey: process.env.RAZORPAY_KEY_ID, // Razorpay key to be used in frontend
+      amount: razorpayOrder.amount, // Amount in paise
+      orderId: razorpayOrder.id, // New Razorpay order ID
+    });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to retry payment" });
   }
-) 
+});
 // Route to verify Razorpay payment for retry
-export const retryPaymentVerification= asyncHandler(async (req, res) => {
+export const retryPaymentVerification = asyncHandler(async (req, res) => {
   const { paymentId, orderId, signature } = req.body;
   const secret = process.env.RAZORPAY_KEY_SECRET;
 
   // Verify Razorpay signature
-  const isValid = verifyRazorpaySignature(orderId, paymentId, signature, secret);
+  const isValid = verifyRazorpaySignature(
+    orderId,
+    paymentId,
+    signature,
+    secret
+  );
 
   if (!isValid) {
-      return res.status(400).json({ success: false, message: 'Payment verification failed' });
+    return res
+      .status(400)
+      .json({ success: false, message: "Payment verification failed" });
   }
 
   // Update order status and payment status
   try {
-      const order = await Order.findById(req.params.orderId);
-      if (order) {
-          order.paymentStatus = 'Paid';
-          order.status = 'Processing'; // Update order status accordingly
-          await order.save();
+    const order = await Order.findById(req.params.orderId);
+    if (order) {
+      order.paymentStatus = "Paid";
+      order.status = "Processing"; // Update order status accordingly
+      await order.save();
 
-          res.json({ success: true });
-      } else {
-          res.status(404).json({ success: false, message: 'Order not found' });
-      }
+      res.json({ success: true });
+    } else {
+      res.status(404).json({ success: false, message: "Order not found" });
+    }
   } catch (error) {
-      console.error(error);
-      res.status(500).json({ success: false, message: 'Failed to update order status' });
+    console.error(error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to update order status" });
   }
-})
-
-
+});
 
 export const getOrderConfirmation = asyncHandler(async (req, res) => {
   try {
@@ -437,12 +449,12 @@ export const userOrderDetails = asyncHandler(async (req, res) => {
 export const getOrderlists = asyncHandler(async (req, res) => {
   try {
     const admin = await Admin.findById(req.adminAuthId);
-    const { search } = req.query; 
+    const { search } = req.query;
     // Pagination logic
     const page = parseInt(req.query.page) || 1; // Current page number
     const limit = parseInt(req.query.limit) || 5; // Number of orders per page
-     // Calculate the startIndex for pagination
-     const startIndex = (page - 1) * limit;
+    // Calculate the startIndex for pagination
+    const startIndex = (page - 1) * limit;
 
     // Check if there is a search query and add it to the MongoDB query object
     let query = {};
@@ -464,7 +476,7 @@ export const getOrderlists = asyncHandler(async (req, res) => {
       orders,
       currentPage: page,
       totalPages: Math.ceil(totalOrders / limit),
-      searchQuery: search || "" // Pass the search query back to the EJS for retaining the search input
+      searchQuery: search || "", // Pass the search query back to the EJS for retaining the search input
     });
   } catch (error) {
     console.log(error.message);

@@ -34,7 +34,7 @@ export const loadRegister = asyncHandler(async (req, res) => {
 });
 export const registerUser = asyncHandler(async (req, res) => {
   try {
-    const { name, email, password, mobno,referralCode} = req.body;
+    const { name, email, password, mobno, referralCode } = req.body;
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.render("account", { message: "user already exists" });
@@ -53,7 +53,13 @@ export const registerUser = asyncHandler(async (req, res) => {
     // const otp = Math.floor(100000 + Math.random() * 900000);
     const otp = generateOtp();
     otpStore[email] = otp;
-    tempUserStore[email] = { name, email, password, mobno,referredBy: referrer?.referralCode || null };
+    tempUserStore[email] = {
+      name,
+      email,
+      password,
+      mobno,
+      referredBy: referrer?.referralCode || null,
+    };
     sendVerificationEmail(email, otp);
 
     return res.render("otp", { email }); // Pass email to the OTP view
@@ -76,7 +82,7 @@ export const verifyOtp = asyncHandler(async (req, res) => {
   const { email, otp } = req.body;
 
   if (otpStore[email] && otpStore[email] === parseInt(otp, 10)) {
-    const { name, password, mobno,referredBy } = tempUserStore[email];
+    const { name, password, mobno, referredBy } = tempUserStore[email];
     // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -87,7 +93,7 @@ export const verifyOtp = asyncHandler(async (req, res) => {
       email,
       password: hashedPassword,
       mobno,
-      referredBy
+      referredBy,
     });
     // Check if the user was referred
     if (referredBy) {
@@ -99,11 +105,19 @@ export const verifyOtp = asyncHandler(async (req, res) => {
         let wallet = await Wallet.findOne({ userId: referrer._id });
         if (!wallet) {
           // If the wallet doesn't exist, create one
-          wallet = new Wallet({ userId: referrer._id, amount: 0, walletHistory: [] });
+          wallet = new Wallet({
+            userId: referrer._id,
+            amount: 0,
+            walletHistory: [],
+          });
         }
 
         // Add Rs. 50 to the referrer's wallet
-        await wallet.addTransaction('credit', 50, 'Referral bonus for referring a new user');
+        await wallet.addTransaction(
+          "credit",
+          50,
+          "Referral bonus for referring a new user"
+        );
         await wallet.save();
       }
     }
@@ -187,14 +201,16 @@ export const loadHome = asyncHandler(async (req, res) => {
   try {
     // const user = await User.findOne({email})
     const user = await User.findById(req.userAuthId);
-    
+
     // Fetch featured products (top 10 by totalQty)
-    const featuredProducts = await Product.find().sort({ totalQty: -1 }).limit(10);
+    const featuredProducts = await Product.find()
+      .sort({ totalQty: -1 })
+      .limit(10);
 
     // Fetch newly added products (top 10 by createdAt)
     const newProducts = await Product.find().sort({ createdAt: -1 }).limit(10);
     const categories = await Category.find();
-    res.render("index", { user, featuredProducts,newProducts, categories}); // Ensure this path is correct
+    res.render("index", { user, featuredProducts, newProducts, categories }); // Ensure this path is correct
   } catch (error) {
     console.log(error.message);
   }
@@ -202,8 +218,6 @@ export const loadHome = asyncHandler(async (req, res) => {
 
 export const allProducts = asyncHandler(async (req, res) => {
   try {
-    
-     
     const user = await User.findById(req.userAuthId);
     const categories = await Category.find({}); // Adjust query as needed
     const wishlist = await Wishlist.findOne({ user: req.userAuthId }).populate(
@@ -213,11 +227,10 @@ export const allProducts = asyncHandler(async (req, res) => {
       ? wishlist.products.map((product) => product._id.toString())
       : [];
 
-        // Fetch latest 3 products for the "New Products" section
+    // Fetch latest 3 products for the "New Products" section
     const latestProducts = await Product.find({})
-    .sort({ createdAt: -1 }) // Sort by creation date in descending order (latest first)
-    .limit(3); // Limit to 3 products
-
+      .sort({ createdAt: -1 }) // Sort by creation date in descending order (latest first)
+      .limit(3); // Limit to 3 products
 
     const selectedCategory = req.query.category; // Get selected category from query parameters
     const minPrice = parseInt(req.query["price-min"]) || 0;
@@ -273,29 +286,29 @@ export const allProducts = asyncHandler(async (req, res) => {
     const products = await Product.find(query)
       .sort(sortCriteria)
       .skip(startIndex)
-      .limit(limit)
-     
-      
-      
-// Ensure the latest sales price is calculated for each product
-for (const product of products) {
-  if (!product) {
-    console.error('Encountered null product in products list');
-    continue; // Skip to the next product
-  // await calculateAndUpdateSalesPrice(product._id);  // Update sales price
- 
-}
-console.log(`Processing product ID: ${product._id}`);
-try {
-    const updatedSalesPrice = await calculateAndUpdateSalesPrice(product._id);
-    product.salesPrice = updatedSalesPrice;
-} catch (error) {
-    console.error(`Error updating product ID ${product._id}:`, error.message);
-}
-}
+      .limit(limit);
 
-      
-  
+    // Ensure the latest sales price is calculated for each product
+    for (const product of products) {
+      if (!product) {
+        console.error("Encountered null product in products list");
+        continue; // Skip to the next product
+        // await calculateAndUpdateSalesPrice(product._id);  // Update sales price
+      }
+      console.log(`Processing product ID: ${product._id}`);
+      try {
+        const updatedSalesPrice = await calculateAndUpdateSalesPrice(
+          product._id
+        );
+        product.salesPrice = updatedSalesPrice;
+      } catch (error) {
+        console.error(
+          `Error updating product ID ${product._id}:`,
+          error.message
+        );
+      }
+    }
+
     res.render("products", {
       categories,
       products,
@@ -305,8 +318,8 @@ try {
       currentSort: sort,
       totalPages: Math.ceil(total / limit),
       currentPage: page,
-      userWishlist, 
-      selectedCategory,// Pass the current page to the frontend
+      userWishlist,
+      selectedCategory, // Pass the current page to the frontend
     }); // Pass the current sort option to the frontend
   } catch (error) {
     res.status(500).send(error.message);
@@ -319,7 +332,7 @@ export const singleProduct = asyncHandler(async (req, res) => {
   const categories = await Category.find();
   // Fetch related products based on the same category but exclude the current product
   const relatedProducts = await Product.find({
-    category: product.category._id, 
+    category: product.category._id,
     _id: { $ne: req.params.id }, // Exclude the current product
   }).limit(4); // Limit the number of related products
 
@@ -452,9 +465,9 @@ export const userProfile = asyncHandler(async (req, res) => {
       .populate("orderItems.productId", "name price") // Populate order items with product name and price
       .sort({ createdAt: -1 }); // Sort orders by creation date (most recent first)
     console.log(orders);
-     // Count total number of orders for pagination
-     const totalOrders = await Order.countDocuments({ user: req.userAuthId });
-     const totalPages = Math.ceil(totalOrders / limit);
+    // Count total number of orders for pagination
+    const totalOrders = await Order.countDocuments({ user: req.userAuthId });
+    const totalPages = Math.ceil(totalOrders / limit);
     const wallet = await Wallet.findOne({ userId: req.userAuthId });
     if (wallet && wallet.walletHistory) {
       // Sort the transaction history by creation date (latest first)
@@ -463,7 +476,14 @@ export const userProfile = asyncHandler(async (req, res) => {
       );
     }
 
-    res.render("userProfile", { user, orders, wallet,currentPage: page, totalPages,limit  }); // Ensure this path is correct
+    res.render("userProfile", {
+      user,
+      orders,
+      wallet,
+      currentPage: page,
+      totalPages,
+      limit,
+    }); // Ensure this path is correct
   } catch (error) {
     console.log(error.message);
   }
@@ -546,18 +566,22 @@ export const userprofileOrders = asyncHandler(async (req, res) => {
       .populate("orderItems.productId", "name price images ") // Populate order items with product name and price
       .sort({ createdAt: -1 }); // Sort orders by creation date (most recent first)
     console.log(orders);
-     // Count total number of orders for pagination
-     const totalOrders = await Order.countDocuments({ user: req.userAuthId });
-     const totalPages = Math.ceil(totalOrders / limit);
+    // Count total number of orders for pagination
+    const totalOrders = await Order.countDocuments({ user: req.userAuthId });
+    const totalPages = Math.ceil(totalOrders / limit);
 
-    res.render("userProfileOrders", { orders,user,currentPage: page, totalPages,limit }); // Ensure this path is correct
+    res.render("userProfileOrders", {
+      orders,
+      user,
+      currentPage: page,
+      totalPages,
+      limit,
+    }); // Ensure this path is correct
   } catch (error) {
     console.log(error.message);
-     // Render an error page in case of server error
+    // Render an error page in case of server error
   }
 });
-
-
 
 export const logoutUser = asyncHandler(async (req, res) => {
   try {

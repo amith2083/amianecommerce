@@ -4,37 +4,35 @@ import User from "../models/User.js";
 import Coupon from "../models/Coupon.js";
 import Order from "../models/Order.js";
 
-export const getCheckout = asyncHandler(async(req,res)=>{
-    try {
-        const user = await User.findById(req.userAuthId);
-        const userId = req.userAuthId;
-        
-        const orderItems = await Cart.find({ userId }).populate('productId')
-        let subtotal = 0;
-        orderItems.forEach(item => {
-          subtotal += item.productId.salesPrice * item.quantity;
-        });
-        console.log('Subtotal:', subtotal);
-        
-        const validActiveCoupons = await Coupon.find({ endDate: { $gte: new Date() } }); // Fetch active coupons
-        console.log('activecoupons',validActiveCoupons)
-        const coupons= validActiveCoupons.filter(coupon => subtotal >= coupon.maximumPurchaseAmount);
-        console.log('coupons',coupons)
-        console.log(orderItems)
-        // console.log(orderItems)
-        
-       
-        res.render('checkout', {user,
-          orderItems,
-          subtotal,
-          coupons
-        });
-      } catch (error) {
-        console.error(error);
-        res.status(500).send('Server Error');
-      }
-    
-})
+export const getCheckout = asyncHandler(async (req, res) => {
+  try {
+    const user = await User.findById(req.userAuthId);
+    const userId = req.userAuthId;
+
+    const orderItems = await Cart.find({ userId }).populate("productId");
+    let subtotal = 0;
+    orderItems.forEach((item) => {
+      subtotal += item.productId.salesPrice * item.quantity;
+    });
+    console.log("Subtotal:", subtotal);
+
+    const validActiveCoupons = await Coupon.find({
+      endDate: { $gte: new Date() },
+    }); // Fetch active coupons
+    console.log("activecoupons", validActiveCoupons);
+    const coupons = validActiveCoupons.filter(
+      (coupon) => subtotal >= coupon.maximumPurchaseAmount
+    );
+    console.log("coupons", coupons);
+    console.log(orderItems);
+    // console.log(orderItems)
+
+    res.render("checkout", { user, orderItems, subtotal, coupons });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+});
 // export const getCheckout = asyncHandler(async (req, res) => {
 //   try {
 //       const user = await User.findById(req.userAuthId);

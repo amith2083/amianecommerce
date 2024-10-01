@@ -89,12 +89,10 @@ export const createOffer = asyncHandler(async (req, res) => {
       !applicableTo ||
       !usageLimit
     ) {
-      return res
-        .status(400)
-        .json({
-          status: "error",
-          message: "All required fields must be filled",
-        });
+      return res.status(400).json({
+        status: "error",
+        message: "All required fields must be filled",
+      });
     }
     const upperCaseCode = code.toUpperCase();
     // Create a new offer

@@ -11,7 +11,7 @@ import {
   loginAdmin,
   logoutAdmin,
   generateSalesReport,
-  bestSelling
+  bestSelling,
 } from "../controllers/adminCtrl.js";
 import { getCustomers, blockCustomer } from "../controllers/CustomersCtrl.js";
 import {
@@ -31,7 +31,6 @@ import {
 } from "../controllers/CategoryCtrl.js";
 import {
   getOrderlists,
- 
   editOrderStatus,
   orderDetail,
 } from "../controllers/orderCtrl.js";
@@ -40,10 +39,13 @@ import {
   getCouponlist,
   addCoupon,
   getEditCoupon,
-  updateCoupon
+  updateCoupon,
 } from "../controllers/couponCtrl.js";
 import {
-getOfferList,createOffer,blockOffer,unblockOffer
+  getOfferList,
+  createOffer,
+  blockOffer,
+  unblockOffer,
 } from "../controllers/offerCtrl.js";
 
 // import { addProduct,productsList,createProduct } from '../controllers/productsCtrl.js'
@@ -58,8 +60,8 @@ adminRoutes.get("/adminlogout", logoutAdmin);
 //adminDashboard
 // adminRoutes.get("/download/pdf", isLoggedAdmin,generatePdfReport);
 // adminRoutes.get("/download/excel",isLoggedAdmin, generateExcelReport);
-adminRoutes.post('/orders/report',isLoggedAdmin, generateSalesReport);
-adminRoutes.get('/best-selling',isLoggedAdmin, bestSelling);
+adminRoutes.post("/orders/report", isLoggedAdmin, generateSalesReport);
+adminRoutes.get("/best-selling", isLoggedAdmin, bestSelling);
 
 //usermanagement
 
@@ -85,7 +87,7 @@ adminRoutes.get("/editproduct/:id", isLoggedAdmin, editProduct);
 adminRoutes.put(
   "/editproduct/:id",
   isLoggedAdmin,
-  upload.fields([{ name: 'files' }, { name: /^croppedImage-/ }]), // Adjust here
+  upload.fields([{ name: "files" }, { name: /^croppedImage-/ }]), // Adjust here
   updateProduct
 );
 adminRoutes.delete("/deleteproduct/:id", isLoggedAdmin, deleteProduct);
@@ -113,19 +115,18 @@ adminRoutes.get("/order", isLoggedAdmin, getOrderlists);
 adminRoutes.put("/orderstatus/:id", isLoggedAdmin, editOrderStatus);
 adminRoutes.get("/order/:id", isLoggedAdmin, orderDetail);
 
-
 //coupons
 adminRoutes.get("/coupon", isLoggedAdmin, getCouponlist);
 adminRoutes.get("/addcoupon", isLoggedAdmin, addCoupon);
 adminRoutes.post("/coupon", isLoggedAdmin, createCoupon);
-adminRoutes.get("/editcoupon/:id", isLoggedAdmin,getEditCoupon );
-adminRoutes.put("/updatecoupon/:id", isLoggedAdmin,updateCoupon );
+adminRoutes.get("/editcoupon/:id", isLoggedAdmin, getEditCoupon);
+adminRoutes.put("/updatecoupon/:id", isLoggedAdmin, updateCoupon);
 
 //offers
 adminRoutes.get("/offer", isLoggedAdmin, getOfferList);
 adminRoutes.post("/offer", isLoggedAdmin, createOffer);
-adminRoutes.put( "/block-offer/:id", isLoggedAdmin, blockOffer);
-adminRoutes.put( "/unblock-offer/:id", isLoggedAdmin, unblockOffer);
+adminRoutes.put("/block-offer/:id", isLoggedAdmin, blockOffer);
+adminRoutes.put("/unblock-offer/:id", isLoggedAdmin, unblockOffer);
 // adminRoutes.get("/add-offer-category", isLoggedAdmin, addCategoryOffer);
 // adminRoutes.post("/add-offer-category", isLoggedAdmin, createCategoryOffer);
 // adminRoutes.delete( "/delete-offer-category/:id", isLoggedAdmin, deleteCategoryOffer);

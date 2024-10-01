@@ -37,7 +37,8 @@ import {
   returnOrder,
   verifyPayment,
   updatePaymentFailure,
-  retryPayment,retryPaymentVerification
+  retryPayment,
+  retryPaymentVerification,
 } from "../controllers/orderCtrl.js";
 import { isLogout } from "../middlewares/isLogout.js";
 import passport from "passport";
@@ -54,17 +55,37 @@ userRoutes.post("/register", registerUser);
 userRoutes.post("/verify-otp", verifyOtp);
 userRoutes.post("/resend-otp", resendOtp);
 userRoutes.post("/login", loginUser);
-userRoutes.get("/home", isLoggedIn, wishlistCartCategoryMiddleware,loadHome);
+userRoutes.get("/home", isLoggedIn, wishlistCartCategoryMiddleware, loadHome);
 userRoutes.get("/forgotpassword", getForgotPassword);
 userRoutes.post("/forgotpassword", forgotpasswordLink);
 userRoutes.get("/resetPassword", resetPassword);
 userRoutes.post("/resetpassword/:token", newPassword);
 // userRoutes.get("/profile", isLoggedIn,getUserProfile);
 userRoutes.get("/logout", logoutUser);
-userRoutes.get("/products", isLoggedIn, wishlistCartCategoryMiddleware, allProducts);
-userRoutes.get("/product/:id", isLoggedIn, wishlistCartCategoryMiddleware,singleProduct);
-userRoutes.get("/profile", isLoggedIn, wishlistCartCategoryMiddleware,userProfile);
-userRoutes.get("/profile/orders", isLoggedIn, wishlistCartCategoryMiddleware,userprofileOrders);
+userRoutes.get(
+  "/products",
+  isLoggedIn,
+  wishlistCartCategoryMiddleware,
+  allProducts
+);
+userRoutes.get(
+  "/product/:id",
+  isLoggedIn,
+  wishlistCartCategoryMiddleware,
+  singleProduct
+);
+userRoutes.get(
+  "/profile",
+  isLoggedIn,
+  wishlistCartCategoryMiddleware,
+  userProfile
+);
+userRoutes.get(
+  "/profile/orders",
+  isLoggedIn,
+  wishlistCartCategoryMiddleware,
+  userprofileOrders
+);
 // userRoutes.get("/search", productSearch);
 userRoutes.post(
   "/profile/update-address",
@@ -78,7 +99,12 @@ userRoutes.delete(
 );
 
 userRoutes.post("/order/:id/cancel", cancelOrder);
-userRoutes.get("/order/:id", isLoggedIn,  wishlistCartCategoryMiddleware,userOrderDetails);
+userRoutes.get(
+  "/order/:id",
+  isLoggedIn,
+  wishlistCartCategoryMiddleware,
+  userOrderDetails
+);
 userRoutes.post("/order/:id/return", isLoggedIn, returnOrder);
 
 userRoutes.get(
@@ -103,25 +129,40 @@ userRoutes.get(
   }
 );
 //cart actions
-userRoutes.get("/cart", isLoggedIn, wishlistCartCategoryMiddleware,  loadCart);
+userRoutes.get("/cart", isLoggedIn, wishlistCartCategoryMiddleware, loadCart);
 userRoutes.post("/cart", isLoggedIn, addToCart);
 userRoutes.post("/cart/update/:itemId", isLoggedIn, updateCart);
 userRoutes.delete("/cart/remove/:id", isLoggedIn, removeFromCart);
 
-userRoutes.get("/checkout", isLoggedIn, wishlistCartCategoryMiddleware, getCheckout);
-userRoutes.get("/orderconfirmation", isLoggedIn, wishlistCartCategoryMiddleware, getOrderConfirmation);
+userRoutes.get(
+  "/checkout",
+  isLoggedIn,
+  wishlistCartCategoryMiddleware,
+  getCheckout
+);
+userRoutes.get(
+  "/orderconfirmation",
+  isLoggedIn,
+  wishlistCartCategoryMiddleware,
+  getOrderConfirmation
+);
 userRoutes.post("/placeorder", isLoggedIn, createOrder);
 userRoutes.post("/verify-payment", verifyPayment);
 userRoutes.post("/update-payment-failure", updatePaymentFailure);
-userRoutes.put("/order/:orderId/retry-payment", isLoggedIn,retryPayment);
+userRoutes.put("/order/:orderId/retry-payment", isLoggedIn, retryPayment);
 
-userRoutes.post('/order/:orderId/verify-payment', retryPaymentVerification);
+userRoutes.post("/order/:orderId/verify-payment", retryPaymentVerification);
 //wallet
 userRoutes.post("/profile/add-funds", isLoggedIn, addFunds);
 userRoutes.post("/profile/verify-payment", isLoggedIn, verifyWalletPayment);
 
 //wishlist
-userRoutes.get("/wishlist", isLoggedIn,wishlistCartCategoryMiddleware, getWishlist);
+userRoutes.get(
+  "/wishlist",
+  isLoggedIn,
+  wishlistCartCategoryMiddleware,
+  getWishlist
+);
 userRoutes.post("/wishlist/add/:id", isLoggedIn, createWishlist);
 userRoutes.delete("/wishlist/remove/:id", isLoggedIn, removeFromWishlist);
 

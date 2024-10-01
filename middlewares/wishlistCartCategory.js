@@ -2,11 +2,10 @@ import Wishlist from "../models/wishlist.js";
 import Cart from "../models/Cart.js";
 import Category from "../models/Category.js";
 
-
 const wishlistCartCategoryMiddleware = async (req, res, next) => {
   try {
     // Check if the user is authenticated
-    
+
     if (req.userAuthId) {
       // Fetch wishlist and cart count for the authenticated user
       const wishlist = await Wishlist.findOne({ user: req.userAuthId });
@@ -27,9 +26,8 @@ const wishlistCartCategoryMiddleware = async (req, res, next) => {
     // Fetch categories
     const categories = await Category.find();
     res.locals.categories = categories;
-
   } catch (error) {
-    console.error('Error fetching wishlist/cart/categories:', error.message);
+    console.error("Error fetching wishlist/cart/categories:", error.message);
     // In case of any error, set defaults
     res.locals.wishlistCount = 0;
     res.locals.cartCount = 0;
