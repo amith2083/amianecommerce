@@ -6,8 +6,10 @@ import {
 import { verifyToken } from "../utils/verifyToken.js";
 export const isLoggedIn = async (req, res, next) => {
   //get tokken from header
-  const token = await getUserTokenFromHeader(req);
+  
+  const token =  await getUserTokenFromHeader(req);
   console.log(token);
+ 
   if (!token) {
     return res.redirect("/register");
   }
@@ -28,6 +30,7 @@ export const isLoggedIn = async (req, res, next) => {
 
   //     next();
   // };
+  console.log('decoded',decodedUser)
 
   if (!decodedUser) {
     return res.redirect("/register"); // Redirect to admin login if from admin route
@@ -39,6 +42,12 @@ export const isLoggedIn = async (req, res, next) => {
       message: "Your account is blocked. Please contact admin.",
     });
   }
+
+  // If user tries to access login or register page and is already logged in, redirect to homepage
+//   if (req.path === '/register' || req.path === '/login') {
+//     return res.redirect('/home');
+//   }
+  
   req.userAuthId = decodedUser?.id;
   next();
 };

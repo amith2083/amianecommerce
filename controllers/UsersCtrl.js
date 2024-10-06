@@ -27,6 +27,9 @@ function generateOtp() {
 
 export const loadRegister = asyncHandler(async (req, res) => {
   try {
+ if(req.cookies.userToken){
+  res.redirect('/home')
+ }else
     res.render("account"); // Ensure this path is correct
   } catch (error) {
     console.log(error.message);
