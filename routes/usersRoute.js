@@ -21,6 +21,8 @@ import {
   updateUserShippingAddress,
   deleteUserAddress,
   userprofileOrders,
+  userAccountDetails,
+  updateAccountDetails
 } from "../controllers/UsersCtrl.js";
 import {
   loadCart,
@@ -105,8 +107,10 @@ userRoutes.get(
   wishlistCartCategoryMiddleware,
   userOrderDetails
 );
-userRoutes.post("/order/:id/return", isLoggedIn, returnOrder);
 
+userRoutes.post("/order/:id/return", isLoggedIn, returnOrder);
+userRoutes.get("/profile/account-details", isLoggedIn,wishlistCartCategoryMiddleware,userAccountDetails)
+userRoutes.put("/profile/account-details", isLoggedIn, wishlistCartCategoryMiddleware,updateAccountDetails)
 userRoutes.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["profile", "email"] })

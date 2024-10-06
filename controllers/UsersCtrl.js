@@ -27,10 +27,9 @@ function generateOtp() {
 
 export const loadRegister = asyncHandler(async (req, res) => {
   try {
- if(req.cookies.userToken){
-  res.redirect('/home')
- }else
-    res.render("account"); // Ensure this path is correct
+    if (req.cookies.userToken) {
+      res.redirect("/home");
+    } else res.render("account"); // Ensure this path is correct
   } catch (error) {
     console.log(error.message);
   }
@@ -391,7 +390,7 @@ export const forgotpasswordLink = asyncHandler(async (req, res) => {
     user.resetPasswordExpires = Date.now() + 3600000; // 1 hour from now
     await user.save();
 
-    const resetLink = `http://localhost:7001/resetpassword?token=${resetToken}`;
+    const resetLink = `http://amian.shop/resetpassword?token=${resetToken}`;
     sendVerificationEmail(userEmail, null, resetLink);
 
     res.render("forgotPassword", { success: true });
@@ -586,6 +585,47 @@ export const userprofileOrders = asyncHandler(async (req, res) => {
   }
 });
 
+export const userAccountDetails = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.userAuthId);
+  return res.render("userAccountDetails", { user });
+});
+export const updateAccountDetails = asyncHandler(async (req, res) => {
+  const { name, password, confirmPassword } = req.body;
+
+  // Find the user by their ID (assumed req.userAuthId is set by your authentication middleware)
+  const user = await User.findById(req.userAuthId);
+
+  if (!user) {
+    return res.status(404).render("error", { message: "User not found" });
+  }
+
+  // Update the name
+  if (name) {
+    user.name = name;
+  }
+
+  // Check if the user wants to update their password
+  if (password) {
+    if (password !== confirmPassword) {
+      return res.render("userAccountDetails", {
+        user,
+        message: "Passwords do not match",
+      });
+    }
+
+    // Hash the new password before saving
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
+  }
+
+  // Save updated user details
+  await user.save();
+
+  return res.render("userAccountDetails", {
+    user,
+    message: "Account details updated successfully",
+  });
+});
 export const logoutUser = asyncHandler(async (req, res) => {
   try {
     // Invalidate the token by removing it from the client
