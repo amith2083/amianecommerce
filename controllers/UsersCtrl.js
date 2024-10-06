@@ -205,13 +205,18 @@ export const loadHome = asyncHandler(async (req, res) => {
     const user = await User.findById(req.userAuthId);
 
     // Fetch featured products (top 10 by totalQty)
-    const featuredProducts = await Product.find()
-      .sort({ totalQty: -1 })
-      .limit(10);
+    // const featuredProducts = await Product.find()
+    //   .sort({ totalQty: -1 })
+    //   .limit(10);
 
     // Fetch newly added products (top 10 by createdAt)
-    const newProducts = await Product.find().sort({ createdAt: -1 }).limit(10);
-    const categories = await Category.find();
+    // const newProducts = await Product.find().sort({ createdAt: -1 }).limit(10);
+    // const categories = await Category.find();
+    const [featuredProducts, newProducts, categories] = await Promise.all([
+      Product.find().sort({ totalQty: -1 }).limit(10),
+      Product.find().sort({ createdAt: -1 }).limit(10),
+      Category.find()
+    ]);
     res.render("index", { user, featuredProducts, newProducts, categories }); // Ensure this path is correct
   } catch (error) {
     console.log(error.message);
