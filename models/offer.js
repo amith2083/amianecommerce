@@ -115,10 +115,10 @@ offerSchema.pre("save", function (next) {
   }
   if (
     this.offerType === "percentage" &&
-    (this.offerValue <= 0 || this.offerValue > 100)
+    (this.offerValue <= 0 || this.offerValue > 80)
   ) {
     return next(
-      new Error("Offer value for percentage must be between 1 and 100")
+      new Error("Offer value for percentage must be between 1 and 80")
     );
   }
   if (this.offerType === "fixed" && this.offerValue <= 0) {

@@ -6,8 +6,8 @@
             <p>Manage your store coupons</p>
         </div>
         <div>
-            <a href="#" class="btn btn-light rounded font-md">Export</a>
-            <a href="#" class="btn btn-light rounded font-md">Import</a>
+            <!-- <a href="#" class="btn btn-light rounded font-md">Export</a>
+            <a href="#" class="btn btn-light rounded font-md">Import</a> -->
             <a href="/admin/addcoupon" class="btn btn-primary btn-sm rounded">Create new</a>
         </div>
     </div>
@@ -64,7 +64,7 @@
                         <td><%= new Date(coupon.startDate).toLocaleDateString() %></td>
                         <td><%= new Date(coupon.endDate).toLocaleDateString() %></td>
                         <td>
-                            <% if (coupon.isExpired) { %>
+                            <% if (coupon.status==='expired') { %>
                             <span class="badge rounded-pill alert-danger">Expired</span>
                             <% } else { %>
                             <span class="badge rounded-pill alert-success">Active</span>

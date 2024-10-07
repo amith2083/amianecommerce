@@ -45,7 +45,7 @@ const couponSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["active", "inactive", "expired"],
-      default: "active",
+      default: "inactive",
     },
   },
   { timestamps: true, toJSON: { virtuals: true } }
@@ -81,8 +81,8 @@ couponSchema.pre("save", function (next) {
   }
 
   // Ensure discount is valid
-  if (this.discount <= 0 || this.discount > 100) {
-    return next(new Error("Discount must be between 1 and 100"));
+  if (this.discount <= 0 || this.discount > 80) {
+    return next(new Error("Discount must be between 1 and 80"));
   }
 
   next();

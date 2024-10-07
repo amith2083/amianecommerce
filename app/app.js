@@ -16,6 +16,7 @@ import adminRoutes from "../routes/adminRoute.js";
 
 import cron from "node-cron";
 import Offer from "../models/offer.js";
+import Coupon from "../models/Coupon.js";
 // import productRoutes from '../routes/productRoute.js';
 // import categoryRoutes from '../routes/categoryRoute.js';
 
@@ -83,6 +84,23 @@ cron.schedule("0 0 * * *", async () => {
     console.log("Expired offers updated successfully");
   } catch (error) {
     console.error("Error updating expired offers:", error);
+  }
+});
+
+// Schedule a job to update expired coupons at midnight
+cron.schedule("* * * * *", async () => {
+  try {
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0); // Set to the start of the day
+
+    // Set expired coupons if their end date has passed
+    await Coupon.updateMany(
+      { endDate: { $lt: currentDate }, status: { $ne: "expired" } },
+      { $set: { status: "expired" } }
+    );
+    console.log("Expired coupons updated successfully");
+  } catch (error) {
+    console.error("Error updating expired coupons:", error);
   }
 });
 const PORT = process.env.PORT || 3000;
