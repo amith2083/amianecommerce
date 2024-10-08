@@ -88,7 +88,7 @@ cron.schedule("0 0 * * *", async () => {
 });
 
 // Schedule a job to update expired coupons at midnight
-cron.schedule("* * * * *", async () => {
+cron.schedule("0 0 * * *", async () => {
   try {
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0); // Set to the start of the day

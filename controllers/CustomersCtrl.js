@@ -4,9 +4,30 @@ import asyncHandler from "express-async-handler";
 export const getCustomers = async (req, res) => {
   try {
     const admin = await Admin.findById(req.adminAuthId);
-    const customers = await User.find();
 
-    res.render("getCustomers", { customers, admin });
+    const { page = 1, limit = 2, search = "" } = req.query;
+
+    // Filter customers based on the search query
+    const query = search
+      ? { name: { $regex: search, $options: "i" } } // case-insensitive search
+      : {};
+
+    // Paginate customers
+    const customers = await User.find(query)
+      .skip((page - 1) * limit) // Skip the previous pages
+      .limit(parseInt(limit)) // Limit the number of customers per page
+      .exec();
+    // Count the total number of documents for pagination
+    const totalCustomers = await User.countDocuments(query);
+
+    // Render the view with customers, current page, total pages, and search term
+    res.render("getCustomers", {
+      customers,
+      admin,
+      currentPage: page,
+      totalPages: Math.ceil(totalCustomers / limit),
+      searchTerm: search,
+    });
   } catch (error) {
     console.log(error.message);
   }

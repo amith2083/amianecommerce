@@ -76,6 +76,12 @@
                                         </ul>
                                     </div>
                                 </div>
+                                
+        <div class="clear-filters" style="padding-left: 10px;">
+            <a href="/products" class="btn btn-sm btn-default">
+                <i class="fi-rs-refresh"></i> Clear Filters
+            </a>
+        </div>
                             </div>
                         </div>
                         <div class="row product-grid-3">
@@ -104,7 +110,7 @@
                                         <div class="product-category">
                                             <a href="shop-grid-right.html"><%= product.brand %></a>
                                         </div>
-                                        <h2><a href="shop-product-right.html"><%= product.name %></a></h2>
+                                        <h2><a href="/product/<%= product._id %>"><%= product.name %></a></h2>
                                         <div class="rating-result" title="90%">
                                             <span>
                                                 <span>90%</span>

@@ -217,7 +217,13 @@ export const loadHome = asyncHandler(async (req, res) => {
       Product.find().sort({ createdAt: -1 }).limit(10),
       Category.find()
     ]);
-    res.render("index", { user, featuredProducts, newProducts, categories }); // Ensure this path is correct
+    const wishlist = await Wishlist.findOne({ user: req.userAuthId }).populate(
+      "products"
+    );
+    const userWishlist = wishlist
+    ? wishlist.products.map((product) => product._id.toString())
+    : [];
+    res.render("index", { user, featuredProducts, newProducts, categories,userWishlist }); // Ensure this path is correct
   } catch (error) {
     console.log(error.message);
   }
@@ -284,7 +290,7 @@ export const allProducts = asyncHandler(async (req, res) => {
     console.log("Query:", query); // Debugging
     //pagination
     const page = parseInt(req.query.page) ? parseInt(req.query.page) : 1;
-    const limit = parseInt(req.query.limit) ? parseInt(req.query.limit) : 3;
+    const limit = parseInt(req.query.limit) ? parseInt(req.query.limit) : 6;
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
     // const total = await Product.countDocuments();
