@@ -338,6 +338,58 @@ function showNewAddressForm() {
         });
     });
     
+    // /public/js/submitReview.js
+
+document.addEventListener("DOMContentLoaded", function () {
+    const reviewForm = document.getElementById("reviewForm");
+  
+    reviewForm.addEventListener("submit", async function (e) {
+      e.preventDefault(); // Prevent the form from submitting traditionally
+  
+      // Get form data
+      const formData = new FormData(reviewForm);
+      const data = Object.fromEntries(formData.entries());
+  
+      try {
+        // Send form data via fetch
+        const response = await fetch('/submit-review', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+  
+        const result = await response.json();
+  
+        if (response.status === 201) {
+          // Show success message using SweetAlert
+          Swal.fire({
+            icon: 'success',
+            title: 'Review Submitted',
+            text: result.message,
+          }).then(() => {
+            window.location.reload(); // Reload the page to show the updated review count
+          });
+        } else {
+          // Show error message using SweetAlert
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: result.message,
+          });
+        }
+      } catch (error) {
+        // Handle any unexpected errors
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Something went wrong. Please try again later.',
+        });
+      }
+    });
+  });
+  
         
     
 

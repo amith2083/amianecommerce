@@ -17,6 +17,7 @@ import Cart from "../models/Cart.js";
 import Wallet from "../models/wallet.js";
 import Wishlist from "../models/wishlist.js";
 import Offer from "../models/offer.js";
+import Review from "../models/review.js";
 import { calculateAndUpdateSalesPrice } from "../utils/offerHelper.js";
 
 let tempUserStore = {}; // Temporary store for user data
@@ -343,6 +344,13 @@ export const singleProduct = asyncHandler(async (req, res) => {
   const user = await User.findById(req.userAuthId);
   const product = await Product.findById(req.params.id).populate("category");
   const categories = await Category.find();
+  const wishlist = await Wishlist.findOne({ user: req.userAuthId }).populate(
+    "products"
+  );
+  const userWishlist = wishlist
+    ? wishlist.products.map((product) => product._id.toString())
+    : [];
+    const reviews = await Review.find({ productId: product._id });
   // Fetch related products based on the same category but exclude the current product
   const relatedProducts = await Product.find({
     category: product.category._id,
@@ -374,8 +382,40 @@ export const singleProduct = asyncHandler(async (req, res) => {
     relatedProducts,
     cart: cartItem,
     currentSort,
+    userWishlist,
+    reviews,
+    reviewsCount: product.reviewCount
   });
 });
+
+export const submitReview = asyncHandler(async(req,res)=>{
+  const { productId, name, email, comment, rating } = req.body;
+
+  try {
+    // Create a new review
+    const newReview = new Review({
+      productId,
+      name,
+      email,
+      comment,
+      rating,
+    });
+
+    await newReview.save();
+
+    // Optionally, you can update the product's  review count
+   // Find the product and increment the review count
+   const product = await Product.findById(productId);
+
+   if (product) {
+     product.reviewCount = product.reviewCount + 1; // Increment the review count
+     await product.save(); // Save the updated product
+   }
+    res.status(201).json({ success: true, message: 'Review submitted successfully' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Failed to submit review' });
+  }
+})
 
 export const getForgotPassword = asyncHandler(async (req, res) => {
   try {

@@ -22,7 +22,8 @@ import {
   deleteUserAddress,
   userprofileOrders,
   userAccountDetails,
-  updateAccountDetails
+  updateAccountDetails,
+  submitReview
 } from "../controllers/UsersCtrl.js";
 import {
   loadCart,
@@ -75,6 +76,11 @@ userRoutes.get(
   isLoggedIn,
   wishlistCartCategoryMiddleware,
   singleProduct
+);
+userRoutes.post(
+  "/submit-review",
+  isLoggedIn,
+  submitReview
 );
 userRoutes.get(
   "/profile",

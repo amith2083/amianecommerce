@@ -29,15 +29,7 @@ const ProductSchema = new Schema(
       type: [String],
       enum: ["S", "M", "L", "XL", "XXL"],
     },
-    // colors:{
-    //     type:[String],
-    //     required:true
-    // },
-    // admin:{
-    //     type:mongoose.Schema.Types.ObjectId,
-    //     ref:'admin',
-    //     required:true
-    // },
+    
     images: [
       {
         type: String,
@@ -45,12 +37,17 @@ const ProductSchema = new Schema(
         required: true,
       },
     ],
-    reviews: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Reviews",
-      },
-    ],
+    // reviews: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Reviews",
+    //   },
+    // ],
+    reviewCount: {
+      type: Number,
+      default: 0,
+    },
+    
     normalPrice: {
       type: Number,
       required: true,
