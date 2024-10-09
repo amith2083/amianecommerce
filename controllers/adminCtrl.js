@@ -411,23 +411,9 @@ export const generateSalesReport = async (req, res) => {
       .skip(skip)
       .limit(limit);
     // Populate coupon details for each order
+    
     console.log("orders", orders);
-    //   for (let order of orders) {
-    //     if (order.couponCode) {
-    //         const coupon = await Coupon.findOne({ code: order.couponCode });
-    //         console.log('coupons',coupon)
-    //         if (coupon) {
-    //             // Calculate the discount amount
-    //             const discountAmount = (order.totalPrice * coupon.discount) / 100;
-    //             order.couponDiscount = discountAmount;
-    //         } else {
-    //             order.couponDiscount = 0; // No discount if coupon is invalid or not found
-    //         }
-    //     } else {
-    //         order.couponDiscount = 0; // No coupon applied
-    //     }
-    // }
-    // Calculate coupon discount for each order if applicable
+   
     const ordersWithDiscount = await Promise.all(
       orders.map(async (order) => {
         let couponDiscount = 0;

@@ -753,9 +753,26 @@ document.getElementById('generateReport').addEventListener('click', async () => 
 async function loadOrders(page = 1) {
     const startDate = document.getElementById('startDate').value;
     const endDate = document.getElementById('endDate').value;
+    const currentDate = new Date().toISOString().split('T')[0]; // Get the current date in 'YYYY-MM-DD' format
 
     if (!startDate || !endDate) {
-        alert('Please select both start and end dates.');
+        // Use SweetAlert2 instead of alert for validation
+        Swal.fire({
+            icon: 'warning',
+            title: 'Missing Dates',
+            text: 'Please select both start and end dates.',
+            confirmButtonText: 'OK'
+        });
+        return;
+    }
+      // Validate that endDate is greater than or equal to currentDate
+      if (endDate > currentDate) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Invalid End Date',
+            text: 'The end date cannot be greater than the current date.',
+            confirmButtonText: 'OK',
+        });
         return;
     }
 
