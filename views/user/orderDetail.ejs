@@ -23,7 +23,13 @@
                             <h6>Order Number: <span id="order-number"><%= order.orderNumber %></span></h6>
                             <h6>Date: <%= order.createdAt.toDateString() %></h6>
                             <h6>Status: <%= order.status %></h6>
-                            <h6>Applied coupon: <%= order.couponCode %></h6>
+                            <!-- <h6>Applied coupon: <%= order.couponCode %></h6> -->
+                            <% if (coupon) { %>
+                                <h6>Applied Coupon: <%= coupon.code %> - <%= coupon.discount %>% off</h6>
+                                <h6>Discount: Rs <%= discountValue.toFixed(2) %></h6>
+                            <% } else { %>
+                                <h6>No coupon applied</h6>
+                            <% } %>
                             <h6>Total: Rs <%= order.totalPrice %></h6>
                             <hr>
                             <h5>Order Items</h5>

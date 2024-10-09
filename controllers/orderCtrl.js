@@ -439,7 +439,21 @@ export const userOrderDetails = asyncHandler(async (req, res) => {
       });
 
     if (!order) return res.status(404).send("Order not found");
-    res.render("orderDetail", { order, user });
+    let coupon = null;
+    let discountValue = 0;
+
+    // Check if a coupon code was applied
+    if (order.couponCode) {
+      coupon = await Coupon.findOne({ code: order.couponCode });
+
+      if (coupon ) {
+        // Calculate the discount
+        discountValue = (order.totalPrice * coupon.discount)/100 ; // Assuming discount is a percentage
+         // Apply the discount to the total price
+      }
+    }
+    console.log('d',discountValue)
+    res.render("orderDetail", { order, user,coupon,discountValue });
   } catch (error) {
     res.status(500).send("Server error");
   }
