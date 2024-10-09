@@ -279,7 +279,13 @@
         fetch('/admin/addproduct', {
             method: 'POST',
             body: formData
-        }).then(response => response.json())
+        }).then(response =>{
+            if (!response.ok) {
+        // If the response is not OK, check if it's an error page
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+        
+         response.json()})
           .then(data => {
               console.log(data);
               if (data.success) {

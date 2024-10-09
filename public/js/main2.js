@@ -151,44 +151,49 @@ document.addEventListener('DOMContentLoaded', () => {
  console.log('Response object:', response);
 
  // Check if the request was successful
- if (response.ok) {
-     // Parse the response if it's JSON (or log text if not JSON)
-     const responseData = await response.json();
-     console.log('Response Data:', responseData);
- } else {
-     console.error(`Error: ${response.status} - ${response.statusText}`);
-     const errorText = await response.text(); // If the server sends error details as text
-     console.error('Error details:', errorText);
- }
+  // Check if the request was successful
+  if (response.ok) {
+    // Only call response.json() once
+    const result = await response.json();
+    console.log('Response Data:', result);
 
-            const result = await response.json();
-
-            if (result.status === 'success') {
-                Swal.fire({
-                    title: 'Success',
-                    text: result.message,
-                    icon: 'success',
-                    confirmButtonText: 'OK',
-                }).then(() => {
-                    window.location.href = '/admin/productslist'; // Redirect after successful update
-                });
-            } else {
-                Swal.fire({
-                    title: 'Error',
-                    text: result.message,
-                    icon: 'error',
-                    confirmButtonText: 'OK',
-                });
-            }
-        } catch (error) {
-            console.error('Error updating product:', error);
-            Swal.fire({
-                title: 'Error',
-                text: 'Something went wrong. Please try again later.',
-                icon: 'error',
-                confirmButtonText: 'OK',
-            });
-        }
+    if (result.status === 'success') {
+        Swal.fire({
+            title: 'Success',
+            text: result.msg,
+            icon: 'success',
+            confirmButtonText: 'OK',
+        }).then(() => {
+            window.location.href = '/admin/productslist'; // Redirect after successful update
+        });
+    } else {
+        Swal.fire({
+            title: 'Error',
+            text: result.msg,
+            icon: 'error',
+            confirmButtonText: 'OK',
+        });
+    }
+} else {
+    console.error(`Error: ${response.status} - ${response.statusText}`);
+    const errorText = await response.text(); // Safely log error text
+    console.error('Error details:', errorText);
+    Swal.fire({
+        title: 'Error',
+        text: 'Server error occurred. Please try again.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+    });
+}
+} catch (error) {
+console.error('Error updating product:', error);
+Swal.fire({
+    title: 'Error',
+    text: 'Something went wrong. Please try again later.',
+    icon: 'error',
+    confirmButtonText: 'OK',
+});
+}
     });
 });
 

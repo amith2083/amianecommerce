@@ -4614,5 +4614,10 @@ body.dark .dropdown-menu .dropdown-item.text-danger {
   color: #dc3545 !important; /* Red color for error title */
 }
 
+    .col-date span {
+        white-space: nowrap;
+    }
+
+
 
 /*# sourceMappingURL=main.css.map */
