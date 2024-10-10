@@ -20,10 +20,18 @@ export const productsList = asyncHandler(async (req, res) => {
     const limit = parseInt(req.query.limit) || 6; // Set the default limit per page
     const startIndex = (page - 1) * limit;
     const total = await Product.countDocuments();
-    const products = await Product.find().skip(startIndex).limit(limit).sort({ createdAt: -1 });
-    
-    return res.render("productsList", { products, admin ,currentPage: page,
-        totalPages: Math.ceil(total / limit),limit});
+    const products = await Product.find()
+      .skip(startIndex)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    return res.render("productsList", {
+      products,
+      admin,
+      currentPage: page,
+      totalPages: Math.ceil(total / limit),
+      limit,
+    });
   } catch (error) {
     console.log(error.message);
   }
@@ -42,15 +50,14 @@ export const createProduct = asyncHandler(async (req, res) => {
   try {
     // console.log(req.files);
     //find the category
-   // Find the category by ID or name
-   const categoryName = req.body.category; // Assuming 'category' is the name in the form
-   const categoryFound = await Category.findOne({ name: categoryName });
-   
+    // Find the category by ID or name
+    const categoryName = req.body.category; // Assuming 'category' is the name in the form
+    const categoryFound = await Category.findOne({ name: categoryName });
 
-   if (!categoryFound) {
-     throw new Error('Category not found');
-   }
-   
+    if (!categoryFound) {
+      throw new Error("Category not found");
+    }
+
     // Define default sizes
     const defaultSizes = ["S", "M", "L", "XL", "XXL"];
     const {
@@ -75,10 +82,10 @@ export const createProduct = asyncHandler(async (req, res) => {
       name,
       description,
       brand,
-      category:categoryFound._id,
+      category: categoryFound._id,
       sizes: defaultSizes,
       // colors,
-     
+
       normalPrice,
       salesPrice,
       totalQty,
@@ -89,8 +96,6 @@ export const createProduct = asyncHandler(async (req, res) => {
     // categoryFound.products.push(product._id)
     // await categoryFound.save()
 
-
-
     // return  res.redirect('/admin/productslist')
     // res.status(201).json({
     //     status:'success',
@@ -98,12 +103,10 @@ export const createProduct = asyncHandler(async (req, res) => {
     //     product
 
     // })
-    res
-      .status(201)
-      .json({ success: true, msg: "Product created successfully", product });
+    res.status(200).json({ success: true, message: 'Product added successfully',product });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, error: "Server error" });
+    res.status(500).json({ success: false, message: 'Product creation failed', error: error.message });
   }
 });
 //get all products
@@ -132,14 +135,13 @@ export const createProduct = asyncHandler(async (req, res) => {
 // });
 
 export const updateProduct = asyncHandler(async (req, res) => {
-  const { name, description, brand, category, price, totalQty,removedImages } = req.body;
- 
-  console.log('req.body', req.body);
-  console.log('req.files', req.files);
-   // Find the product by its ID
-   const product = await Product.findById(req.params.id);
- 
- 
+  const { name, description, brand, category, price, totalQty, removedImages } =
+    req.body;
+
+  console.log("req.body", req.body);
+  console.log("req.files", req.files);
+  // Find the product by its ID
+  const product = await Product.findById(req.params.id);
 
   // let updateData = { name,description,brand,category,price,totalQty };
 
@@ -158,27 +160,29 @@ export const updateProduct = asyncHandler(async (req, res) => {
   // }
 
   // Prepare new images array
- // Handle removed images
- let removedImagesArray = removedImages ? JSON.parse(removedImages) : [];
+  // Handle removed images
+  let removedImagesArray = removedImages ? JSON.parse(removedImages) : [];
 
- // Update the images field by filtering out the removed images
- product.images = product.images.filter(img => !removedImagesArray.includes(img));
+  // Update the images field by filtering out the removed images
+  product.images = product.images.filter(
+    (img) => !removedImagesArray.includes(img)
+  );
 
- // Handle new images
-//  const croppedImages = req.files['croppedImage-0']; // Access the cropped images
- let newImages = [];
- if (Array.isArray(req.files)) {
-  // If files are in an array
-  newImages = req.files.map(file => file.path);
-} else if (req.files && typeof req.files === 'object') {
-  // If files are an object (e.g., {'croppedImage-0': {...}})
-  for (const key in req.files) {
+  // Handle new images
+  //  const croppedImages = req.files['croppedImage-0']; // Access the cropped images
+  let newImages = [];
+  if (Array.isArray(req.files)) {
+    // If files are in an array
+    newImages = req.files.map((file) => file.path);
+  } else if (req.files && typeof req.files === "object") {
+    // If files are an object (e.g., {'croppedImage-0': {...}})
+    for (const key in req.files) {
       newImages.push(req.files[key].path);
+    }
   }
-}
 
- // Add new images to the existing ones
- product.images = product.images.concat(newImages);
+  // Add new images to the existing ones
+  product.images = product.images.concat(newImages);
 
   //  // Handle removed images
   //  let removedImages = [];
@@ -187,10 +191,9 @@ export const updateProduct = asyncHandler(async (req, res) => {
   //  }
   //  // Handle new images
   // const newImages = req.files ? req.files.map(file => file.path) : [];
- // Handle removed images
-//  let removedImagesArray = [];
-//  
-  
+  // Handle removed images
+  //  let removedImagesArray = [];
+  //
 
   // Update product fields
   product.name = name || product.name;
@@ -200,20 +203,19 @@ export const updateProduct = asyncHandler(async (req, res) => {
   product.price = price || product.price;
   product.totalQty = totalQty || product.totalQty;
   // product.images = removedImagesArray.length > 0 ? updatedImages.concat(newImages) : updatedImages;
-  
 
   // If there are new images, update the images field
   // if (updatedImages.length > 0) {
   //   product.images = updatedImages;
   // }
-  
+
   // Save the updated product
   // const updatedProduct = await product.save();
   await product.save();
   // return res.redirect("/admin/productslist");
   res.json({
-    status: 'success',
-    msg: 'Product updated successfully'
+    status: "success",
+    msg: "Product updated successfully",
   });
 });
 
