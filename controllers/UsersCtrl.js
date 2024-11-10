@@ -464,7 +464,7 @@ export const resetPassword = asyncHandler(async (req, res) => {
     }
 
     // If the token is valid, render the reset password form
-    res.render("resetpassword", { token });
+    res.render("resetPassword", { token });
   } catch (error) {
     console.error("Error finding user by token:", error);
     res.status(500).send("Server error");
