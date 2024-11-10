@@ -73,21 +73,22 @@ adminRoutes.get("/addproduct", isLoggedAdmin, addProduct);
 adminRoutes.post(
   "/addproduct",
   isLoggedAdmin,
-  upload.array("files"),
+  upload.array("files",3),
   createProduct
 );
 adminRoutes.get("/productslist", isLoggedAdmin, productsList);
 adminRoutes.get("/editproduct/:id", isLoggedAdmin, editProduct);
+
 // adminRoutes.put(
 //   "/editproduct/:id",
 //   isLoggedAdmin,
-//   upload.array("files"),
+//   upload.fields([{ name: "files" }, { name: /^croppedImage-/ }]), // Adjust here
 //   updateProduct
 // );
 adminRoutes.put(
   "/editproduct/:id",
   isLoggedAdmin,
-  upload.fields([{ name: "files" }, { name: /^croppedImage-/ }]), // Adjust here
+  upload.array("files", 3), // Allows up to 5 files to be uploaded under the "files" field
   updateProduct
 );
 adminRoutes.delete("/deleteproduct/:id", isLoggedAdmin, deleteProduct);

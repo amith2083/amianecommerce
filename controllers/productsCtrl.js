@@ -218,6 +218,53 @@ export const updateProduct = asyncHandler(async (req, res) => {
     msg: "Product updated successfully",
   });
 });
+// export const updateProduct = asyncHandler(async (req, res) => {
+//   try {
+//     const { name, description, brand, category, price, totalQty, removedImages } = req.body;
+
+//     // Find the product by its ID
+//     const product = await Product.findById(req.params.id);
+//     if (!product) throw new Error("Product not found");
+
+//     // Process images: Remove the images that the user has marked for removal
+//     const removedImagesArray = removedImages ? JSON.parse(removedImages) : [];
+//     product.images = product.images.filter(img => !removedImagesArray.includes(img));
+
+//     // Add any new uploaded images
+//     let newImages = [];
+//     if (req.files && Array.isArray(req.files)) {
+//       newImages = req.files.map((file) => `/uploads/${file.filename}`);
+//     } else if (req.files && typeof req.files === "object") {
+//       // Handle when `req.files` is an object, as in the case of multiple named fields
+//       for (const key in req.files) {
+//         if (Array.isArray(req.files[key])) {
+//           newImages = req.files[key].map((file) => `/uploads/${file.filename}`);
+//         } else {
+//           newImages.push(`/uploads/${req.files[key].filename}`);
+//         }
+//       }
+//     }
+
+//     // Append new images to the product
+//     product.images = product.images.concat(newImages);
+
+//     // Update other product details
+//     product.name = name || product.name;
+//     product.description = description || product.description;
+//     product.brand = brand || product.brand;
+//     product.category = category || product.category;
+//     product.price = price || product.price;
+//     product.totalQty = totalQty || product.totalQty;
+
+//     // Save the updated product
+//     const updatedProduct = await product.save();
+
+//     res.status(200).json({ status: 'success', msg: "Product updated successfully" });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ status: 'error', msg: "Product update failed", error: error.message });
+//   }
+// });
 
 export const deleteProduct = asyncHandler(async (req, res) => {
   await Product.findByIdAndDelete(req.params.id);

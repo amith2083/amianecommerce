@@ -916,4 +916,3 @@ document.getElementById('downloadTransactionDetails').addEventListener('click', 
     // Save the PDF
     doc.save('transaction_details.pdf');
 });
-

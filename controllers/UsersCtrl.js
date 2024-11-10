@@ -214,8 +214,8 @@ export const loadHome = asyncHandler(async (req, res) => {
     // const newProducts = await Product.find().sort({ createdAt: -1 }).limit(10);
     // const categories = await Category.find();
     const [featuredProducts, newProducts, categories] = await Promise.all([
-      Product.find().sort({ totalQty: -1 }).limit(10),
-      Product.find().sort({ createdAt: -1 }).limit(10),
+      Product.find().sort({ totalQty: -1 }).limit(6),
+      Product.find().sort({ createdAt: -1 }).limit(6),
       Category.find()
     ]);
     const wishlist = await Wishlist.findOne({ user: req.userAuthId }).populate(
@@ -441,7 +441,7 @@ export const forgotpasswordLink = asyncHandler(async (req, res) => {
     user.resetPasswordExpires = Date.now() + 3600000; // 1 hour from now
     await user.save();
 
-    const resetLink = `http://amian.shop/resetpassword?token=${resetToken}`;
+    const resetLink = `${process.env.BASE_URL}/resetpassword?token=${resetToken}`;
     sendVerificationEmail(userEmail, null, resetLink);
 
     res.render("forgotPassword", { success: true });

@@ -48,41 +48,6 @@ export const editCategory = asyncHandler(async (req, res) => {
     console.log(error.message);
   }
 });
-
-//create category
-// export const createCategory = asyncHandler(async (req, res) => {
-//   const { name } = req.body;
-//   const imageURL = req.file.path;
-//   // Validate input
-//   if (!name || !req.file) {
-//     // If validation fails, redirect back to the form with an error message
-//     return res.render("addCategories", {
-//       categories: await Category.find(),
-//       error: "Name and Image are required to create a category.",
-//     });
-//   }
-//   const categoryFound = await Category.findOne({ name:name.toUpperCase() });
-//   // const categoryFound = await Category.findOne({
-//   //   $or: [
-//   //     { name: name.toUpperCase() },
-//   //     { image: imageURL }
-//   //   ]
-//   // });
-//   if (categoryFound) {
-//     return res.redirect(`/admin/addcategories?error=Category already exists.`);
-//   }
-//   const category = await Category.create({
-//     name: name.toUpperCase(),
-//     admin: req.adminAuthId,
-//     image: req.file.path,
-//   });
-//   res.redirect("/admin/addcategories?success=Category created successfully.");
-//   // res.json({
-//   //     status:'success',
-//   //     msg:'category created successfully',
-//   //     category
-//   // })
-// });
 export const createCategory = asyncHandler(async (req, res) => {
   try {
     const { name } = req.body;
@@ -131,14 +96,54 @@ export const createCategory = asyncHandler(async (req, res) => {
     }
   }
 });
+// export const createCategory = asyncHandler(async (req, res) => {
+//   try {
+//     const { name } = req.body;
+//     // const imageURL = req.file.path;
+//     const imageURL = `/uploads/${req.file.filename.replace(/\\/g, '/')}`; // Ensure forward slashes
 
-// export const singleCategory = asyncHandler(async(req,res)=>{
-//     const category = await Category.findById(req.params.id);
-//     res.json({
-//         status:'success',
-//         msg:'single category fetched successfully',
-//         category
-//     })
+//     // Validate input
+//     if (!name || !req.file) {
+//       return res.status(400).json({
+//         status: "error",
+//         message: "Name and Image are required to create a category.",
+//       });
+//     }
+
+//     // const upperCaseName = name.toUpperCase();
+//     // Capitalize the first letter and make the rest lowercase
+//     const formattedName =
+//       name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+//     console.log(formattedName);
+
+//     // Create a new category
+//     const newCategory = new Category({
+//       name: formattedName,
+//       // admin: req.adminAuthId, // Assuming `req.adminAuthId` holds the admin ID
+//       image: imageURL,
+//     });
+
+//     // Save category
+//     const savedCategory = await newCategory.save();
+
+//     res.status(201).json({
+//       status: "success",
+//       message: "Category created successfully",
+//       category: savedCategory,
+//     });
+//   } catch (error) {
+//     if (error.code === 11000) {
+//       // Handle duplicate name error
+//       return res
+//         .status(400)
+//         .json({ status: "error", message: "Category name already exists" });
+//     } else if (error.message) {
+//       return res.status(400).json({ status: "error", message: error.message });
+//     } else {
+//       console.error("Error creating category:", error);
+//       return res.status(500).json({ status: "error", message: "Server error" });
+//     }
+//   }
 // });
 
 export const updateCategory = asyncHandler(async (req, res) => {
@@ -173,6 +178,7 @@ export const updateCategory = asyncHandler(async (req, res) => {
   }
   // return res.redirect("/admin/addcategories");
 });
+
 export const deleteCategory = asyncHandler(async (req, res) => {
   await Category.findByIdAndDelete(req.params.id);
 
